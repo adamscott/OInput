@@ -494,13 +494,11 @@ static public class OpenInput {
 		if (Profiles == null) Profiles = new Dictionary<string, OpenInputProfile>();
 		
 		OpenInputProfile profile;
-		Profiles.TryGetValue(profileId, out profile);
-		
-		if (profile == null) {
+		if (Profiles.TryGetValue(profileId, out profile)) {
+			return profile;
+		} else {
 			Profiles[profileId] = new OpenInputProfile(profileId);
 			return Profiles[profileId];
-		} else {
-			return profile;
 		}
 	}
 	
@@ -645,6 +643,56 @@ static public class OpenInput {
 		Dictionary<string, List<AxisKeys>> AxisKeysActions;
 		string id;
 		
+		public bool anyButton {
+			get {
+				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
+				while(buttonActionsEnumerator.MoveNext()) {
+					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
+					while(keyEnumerator.MoveNext()) {
+						if (Input.GetKey(keyEnumerator.Current)) return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		
+		public bool anyButtonDown {
+			get {
+				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
+				while(buttonActionsEnumerator.MoveNext()) {
+					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
+					while(keyEnumerator.MoveNext()) {
+						if (Input.GetKeyDown(keyEnumerator.Current)) return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		
+		public bool anyAxis {
+			get {
+				Dictionary<string, List<UnityAxis>>.Enumerator axisActionsEnumerator = AxisActions.GetEnumerator();
+				while(axisActionsEnumerator.MoveNext()) {
+					List<UnityAxis>.Enumerator axisEnumerator = axisActionsEnumerator.Current.Value.GetEnumerator();
+					while(axisEnumerator.MoveNext()) {
+						if (Input.GetAxis(AxisMap[axisEnumerator.Current]) > 0.0f || Input.GetAxis(AxisMap[axisEnumerator.Current]) < 0.0f) return true;
+					}
+				}
+				
+				Dictionary<string, List<AxisKeys>>.Enumerator axisKeysActionsEnumerator = AxisKeysActions.GetEnumerator();
+				while(axisKeysActionsEnumerator.MoveNext()) {
+					List<AxisKeys>.Enumerator axisKeysEnumerator = axisKeysActionsEnumerator.Current.Value.GetEnumerator();
+					while(axisKeysEnumerator.MoveNext()) {
+						if (Input.GetKey(axisKeysEnumerator.Current.Positive) || Input.GetKey(axisKeysEnumerator.Current.Negative)) return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		
 		public OpenInputProfile(string profileId) {
 			ButtonActions = new Dictionary<string, List<KeyCode>>();
 			AxisActions = new Dictionary<string, List<UnityAxis>>();
@@ -774,9 +822,7 @@ static public class OpenInput {
 		public void SetButton(string action, KeyCode key) {
 			List<KeyCode> listOfButtons;
 			
-			ButtonActions.TryGetValue(action, out listOfButtons);
-			
-			if (listOfButtons == null) {
+			if (!ButtonActions.TryGetValue(action, out listOfButtons)) {
 				ButtonActions.Add(action, new List<KeyCode>());
 				listOfButtons = ButtonActions[action];
 			}
@@ -790,17 +836,16 @@ static public class OpenInput {
 		
 		public void SetButton(string action, string key) {
 			KeyCode keyCode;
-			StringToKeyCode.TryGetValue(key, out keyCode);
-			
-			if (keyCode == null) throw new UnityException("Key \"" + key + "\" is unknown.");
-			SetButton(action, keyCode);
+			if (StringToKeyCode.TryGetValue(key, out keyCode)) {
+				SetButton(action, keyCode);
+			} else {
+				throw new UnityException("Key \"" + key + "\" is unknown.");
+			}
 		}
 		
 		public void SetAxis(string action, UnityAxis unityAxis) {
 			List<UnityAxis> listOfAxis;
-			AxisActions.TryGetValue(action, out listOfAxis);
-			
-			if (listOfAxis == null) {
+			if (!AxisActions.TryGetValue(action, out listOfAxis)) {
 				AxisActions.Add(action, new List<UnityAxis>());
 				listOfAxis = AxisActions[action];
 			}
@@ -814,9 +859,7 @@ static public class OpenInput {
 		
 		public void SetAxis(string action, KeyCode positiveKey, KeyCode negativeKey) {
 			List<AxisKeys> listOfAxisKeys;
-			AxisKeysActions.TryGetValue(action, out listOfAxisKeys);
-			
-			if (listOfAxisKeys == null) {
+			if (!AxisKeysActions.TryGetValue(action, out listOfAxisKeys)) {
 				AxisKeysActions.Add(action, new List<AxisKeys>());
 				listOfAxisKeys = AxisKeysActions[action];
 			}
@@ -834,30 +877,34 @@ static public class OpenInput {
 		
 		public void SetAxis(string action, string positiveKey, string negativeKey) {
 			KeyCode positive;
-			StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive);
-			if (positive == null) throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
+			if (!StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
+				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
+			}
 			
 			KeyCode negative;
-			StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative);
-			if (negative == null) throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
+			if (!StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
+				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
+			}
 			
 			SetAxis(action, positive, negative);
 		}
 		
 		public void SetAxis(string action, KeyCode positiveKey, string negativeKey) {
 			KeyCode negative;
-			StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative);
-			if (negative == null) throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
-			
-			SetAxis(action, positiveKey, negative);
+			if (StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
+				SetAxis(action, positiveKey, negative);
+			} else {
+				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
+			}			
 		}
 		
 		public void SetAxis(string action, string positiveKey, KeyCode negativeKey) {
 			KeyCode positive;
-			StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive);
-			if (positive == null) throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
-			
-			SetAxis(action, positive, negativeKey);
+			if (StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
+				SetAxis(action, positive, negativeKey);
+			} else {
+				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
+			}
 		}
 		
 		public void UnsetAxis(string action) {
