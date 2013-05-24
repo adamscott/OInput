@@ -6,12 +6,17 @@ Intended to free the developer from the input limitations of Unity.
 
 How to install?
 ----------------
-- Put the "OpenInput.cs" file anywhere in the "Assets" folder of your project.
+- Put the "OInput.cs" file anywhere in the "Assets" folder of your project.
 - Replace the "InputManager.asset" file in the "ProjectSettings" of your project by the one of OInput.
 
 How to use?
 ----------------
-
+        
+        // In the Start method
+        OInput.GetDefaultProfile().SetAxis("Horizontal", "a", "d");
+        ...
+        // In the update loop
+        transform.position += OInput.GetDefaultProfile().GetAxis("Horizontal") * Time.deltaTime * speed;
 
 Notes
 ----------------
