@@ -13,9 +13,9 @@ static public class OpenInput {
 	}
 	
 	/// <summary>
-	/// Unity axis.
+	/// Current axes in Unity.
 	/// </summary>
-	public enum UnityAxis {
+	public enum Axes {
 		Horizontal,
 		Vertical,
 		Fire1,
@@ -137,127 +137,127 @@ static public class OpenInput {
 	}
 	
 	/// <summary>
-	/// The axis map.
+	/// The axes map.
 	/// </summary>
-	static readonly Dictionary<UnityAxis,string> AxisMap = new Dictionary<UnityAxis, string>(){
-		{UnityAxis.Horizontal, "Horizontal"},
-		{UnityAxis.Vertical, "Vertical"},
-		{UnityAxis.Fire1, "Fire1"},
-		{UnityAxis.Fire2, "Fire2"},
-		{UnityAxis.Fire3, "Fire3"},
-		{UnityAxis.Jump, "Jump"},
-		{UnityAxis.MouseX, "Mouse X"},
-		{UnityAxis.MouseY, "Mouse Y"},
-		{UnityAxis.MouseScrollWheel, "Mouse ScrollWheel"},
-		{UnityAxis.MouseHorizontal, "Mouse Horizontal"},
-		{UnityAxis.MouseVertical, "Mouse Vertical"},
-		{UnityAxis.MouseWheel, "Mouse Wheel"},
-		{UnityAxis.Shift, "Shift"},
-		{UnityAxis.WindowShakeX, "Window Shake X"},
-		{UnityAxis.WindowShakeY, "Window Shake Y"},
-		{UnityAxis.Horizontal_Depricated, "Horizontal_Depricated"},
-		{UnityAxis.Vertical_Depricated, "Vertical_Depricated"},
-		{UnityAxis.Joystick1Axis1, "Joy1 Axis 1"},
-		{UnityAxis.Joystick1Axis2, "Joy1 Axis 2"},
-		{UnityAxis.Joystick1Axis3, "Joy1 Axis 3"},
-		{UnityAxis.Joystick1Axis4, "Joy1 Axis 4"},
-		{UnityAxis.Joystick1Axis5, "Joy1 Axis 5"},
-		{UnityAxis.Joystick1Axis6, "Joy1 Axis 6"},
-		{UnityAxis.Joystick1Axis7, "Joy1 Axis 7"},
-		{UnityAxis.Joystick1Axis8, "Joy1 Axis 8"},
-		{UnityAxis.Joystick1Axis9, "Joy1 Axis 9"},
-		{UnityAxis.Joystick1Axis10, "Joy1 Axis 10"},
-		{UnityAxis.Joystick2Axis1, "Joy2 Axis 1"},
-		{UnityAxis.Joystick2Axis2, "Joy2 Axis 2"},
-		{UnityAxis.Joystick2Axis3, "Joy2 Axis 3"},
-		{UnityAxis.Joystick2Axis4, "Joy2 Axis 4"},
-		{UnityAxis.Joystick2Axis5, "Joy2 Axis 5"},
-		{UnityAxis.Joystick2Axis6, "Joy2 Axis 6"},
-		{UnityAxis.Joystick2Axis7, "Joy2 Axis 7"},
-		{UnityAxis.Joystick2Axis8, "Joy2 Axis 8"},
-		{UnityAxis.Joystick2Axis9, "Joy2 Axis 9"},
-		{UnityAxis.Joystick2Axis10, "Joy2 Axis 10"},
-		{UnityAxis.Joystick3Axis1, "Joy3 Axis 1"},
-		{UnityAxis.Joystick3Axis2, "Joy3 Axis 2"},
-		{UnityAxis.Joystick3Axis3, "Joy3 Axis 3"},
-		{UnityAxis.Joystick3Axis4, "Joy3 Axis 4"},
-		{UnityAxis.Joystick3Axis5, "Joy3 Axis 5"},
-		{UnityAxis.Joystick3Axis6, "Joy3 Axis 6"},
-		{UnityAxis.Joystick3Axis7, "Joy3 Axis 7"},
-		{UnityAxis.Joystick3Axis8, "Joy3 Axis 8"},
-		{UnityAxis.Joystick3Axis9, "Joy3 Axis 9"},
-		{UnityAxis.Joystick3Axis10, "Joy3 Axis 10"},
-		{UnityAxis.Joystick4Axis1, "Joy4 Axis 1"},
-		{UnityAxis.Joystick4Axis2, "Joy4 Axis 2"},
-		{UnityAxis.Joystick4Axis3, "Joy4 Axis 3"},
-		{UnityAxis.Joystick4Axis4, "Joy4 Axis 4"},
-		{UnityAxis.Joystick4Axis5, "Joy4 Axis 5"},
-		{UnityAxis.Joystick4Axis6, "Joy4 Axis 6"},
-		{UnityAxis.Joystick4Axis7, "Joy4 Axis 7"},
-		{UnityAxis.Joystick4Axis8, "Joy4 Axis 8"},
-		{UnityAxis.Joystick4Axis9, "Joy4 Axis 9"},
-		{UnityAxis.Joystick4Axis10, "Joy4 Axis 10"},
-		{UnityAxis.Joystick5Axis1, "Joy5 Axis 1"},
-		{UnityAxis.Joystick5Axis2, "Joy5 Axis 2"},
-		{UnityAxis.Joystick5Axis3, "Joy5 Axis 3"},
-		{UnityAxis.Joystick5Axis4, "Joy5 Axis 4"},
-		{UnityAxis.Joystick5Axis5, "Joy5 Axis 5"},
-		{UnityAxis.Joystick5Axis6, "Joy5 Axis 6"},
-		{UnityAxis.Joystick5Axis7, "Joy5 Axis 7"},
-		{UnityAxis.Joystick5Axis8, "Joy5 Axis 8"},
-		{UnityAxis.Joystick5Axis9, "Joy5 Axis 9"},
-		{UnityAxis.Joystick5Axis10, "Joy5 Axis 10"},
-		{UnityAxis.Joystick6Axis1, "Joy6 Axis 1"},
-		{UnityAxis.Joystick6Axis2, "Joy6 Axis 2"},
-		{UnityAxis.Joystick6Axis3, "Joy6 Axis 3"},
-		{UnityAxis.Joystick6Axis4, "Joy6 Axis 4"},
-		{UnityAxis.Joystick6Axis5, "Joy6 Axis 5"},
-		{UnityAxis.Joystick6Axis6, "Joy6 Axis 6"},
-		{UnityAxis.Joystick6Axis7, "Joy6 Axis 7"},
-		{UnityAxis.Joystick6Axis8, "Joy6 Axis 8"},
-		{UnityAxis.Joystick6Axis9, "Joy6 Axis 9"},
-		{UnityAxis.Joystick6Axis10, "Joy6 Axis 10"},
-		{UnityAxis.Joystick7Axis1, "Joy7 Axis 1"},
-		{UnityAxis.Joystick7Axis2, "Joy7 Axis 2"},
-		{UnityAxis.Joystick7Axis3, "Joy7 Axis 3"},
-		{UnityAxis.Joystick7Axis4, "Joy7 Axis 4"},
-		{UnityAxis.Joystick7Axis5, "Joy7 Axis 5"},
-		{UnityAxis.Joystick7Axis6, "Joy7 Axis 6"},
-		{UnityAxis.Joystick7Axis7, "Joy7 Axis 7"},
-		{UnityAxis.Joystick7Axis8, "Joy7 Axis 8"},
-		{UnityAxis.Joystick7Axis9, "Joy7 Axis 9"},
-		{UnityAxis.Joystick7Axis10, "Joy7 Axis 10"},
-		{UnityAxis.Joystick8Axis1, "Joy8 Axis 1"},
-		{UnityAxis.Joystick8Axis2, "Joy8 Axis 2"},
-		{UnityAxis.Joystick8Axis3, "Joy8 Axis 3"},
-		{UnityAxis.Joystick8Axis4, "Joy8 Axis 4"},
-		{UnityAxis.Joystick8Axis5, "Joy8 Axis 5"},
-		{UnityAxis.Joystick8Axis6, "Joy8 Axis 6"},
-		{UnityAxis.Joystick8Axis7, "Joy8 Axis 7"},
-		{UnityAxis.Joystick8Axis8, "Joy8 Axis 8"},
-		{UnityAxis.Joystick8Axis9, "Joy8 Axis 9"},
-		{UnityAxis.Joystick8Axis10, "Joy8 Axis 10"},
-		{UnityAxis.Joystick9Axis1, "Joy9 Axis 1"},
-		{UnityAxis.Joystick9Axis2, "Joy9 Axis 2"},
-		{UnityAxis.Joystick9Axis3, "Joy9 Axis 3"},
-		{UnityAxis.Joystick9Axis4, "Joy9 Axis 4"},
-		{UnityAxis.Joystick9Axis5, "Joy9 Axis 5"},
-		{UnityAxis.Joystick9Axis6, "Joy9 Axis 6"},
-		{UnityAxis.Joystick9Axis7, "Joy9 Axis 7"},
-		{UnityAxis.Joystick9Axis8, "Joy9 Axis 8"},
-		{UnityAxis.Joystick9Axis9, "Joy9 Axis 9"},
-		{UnityAxis.Joystick9Axis10, "Joy9 Axis 10"},
-		{UnityAxis.Joystick10Axis1, "Joy10 Axis 1"},
-		{UnityAxis.Joystick10Axis2, "Joy10 Axis 2"},
-		{UnityAxis.Joystick10Axis3, "Joy10 Axis 3"},
-		{UnityAxis.Joystick10Axis4, "Joy10 Axis 4"},
-		{UnityAxis.Joystick10Axis5, "Joy10 Axis 5"},
-		{UnityAxis.Joystick10Axis6, "Joy10 Axis 6"},
-		{UnityAxis.Joystick10Axis7, "Joy10 Axis 7"},
-		{UnityAxis.Joystick10Axis8, "Joy10 Axis 8"},
-		{UnityAxis.Joystick10Axis9, "Joy10 Axis 9"},
-		{UnityAxis.Joystick10Axis10, "Joy10 Axis 10"},
-		{UnityAxis.None, ""}
+	static readonly Dictionary<Axes,string> AxesMap = new Dictionary<Axes, string>(){
+		{Axes.Horizontal, "Horizontal"},
+		{Axes.Vertical, "Vertical"},
+		{Axes.Fire1, "Fire1"},
+		{Axes.Fire2, "Fire2"},
+		{Axes.Fire3, "Fire3"},
+		{Axes.Jump, "Jump"},
+		{Axes.MouseX, "Mouse X"},
+		{Axes.MouseY, "Mouse Y"},
+		{Axes.MouseScrollWheel, "Mouse ScrollWheel"},
+		{Axes.MouseHorizontal, "Mouse Horizontal"},
+		{Axes.MouseVertical, "Mouse Vertical"},
+		{Axes.MouseWheel, "Mouse Wheel"},
+		{Axes.Shift, "Shift"},
+		{Axes.WindowShakeX, "Window Shake X"},
+		{Axes.WindowShakeY, "Window Shake Y"},
+		{Axes.Horizontal_Depricated, "Horizontal_Depricated"},
+		{Axes.Vertical_Depricated, "Vertical_Depricated"},
+		{Axes.Joystick1Axis1, "Joy1 Axis 1"},
+		{Axes.Joystick1Axis2, "Joy1 Axis 2"},
+		{Axes.Joystick1Axis3, "Joy1 Axis 3"},
+		{Axes.Joystick1Axis4, "Joy1 Axis 4"},
+		{Axes.Joystick1Axis5, "Joy1 Axis 5"},
+		{Axes.Joystick1Axis6, "Joy1 Axis 6"},
+		{Axes.Joystick1Axis7, "Joy1 Axis 7"},
+		{Axes.Joystick1Axis8, "Joy1 Axis 8"},
+		{Axes.Joystick1Axis9, "Joy1 Axis 9"},
+		{Axes.Joystick1Axis10, "Joy1 Axis 10"},
+		{Axes.Joystick2Axis1, "Joy2 Axis 1"},
+		{Axes.Joystick2Axis2, "Joy2 Axis 2"},
+		{Axes.Joystick2Axis3, "Joy2 Axis 3"},
+		{Axes.Joystick2Axis4, "Joy2 Axis 4"},
+		{Axes.Joystick2Axis5, "Joy2 Axis 5"},
+		{Axes.Joystick2Axis6, "Joy2 Axis 6"},
+		{Axes.Joystick2Axis7, "Joy2 Axis 7"},
+		{Axes.Joystick2Axis8, "Joy2 Axis 8"},
+		{Axes.Joystick2Axis9, "Joy2 Axis 9"},
+		{Axes.Joystick2Axis10, "Joy2 Axis 10"},
+		{Axes.Joystick3Axis1, "Joy3 Axis 1"},
+		{Axes.Joystick3Axis2, "Joy3 Axis 2"},
+		{Axes.Joystick3Axis3, "Joy3 Axis 3"},
+		{Axes.Joystick3Axis4, "Joy3 Axis 4"},
+		{Axes.Joystick3Axis5, "Joy3 Axis 5"},
+		{Axes.Joystick3Axis6, "Joy3 Axis 6"},
+		{Axes.Joystick3Axis7, "Joy3 Axis 7"},
+		{Axes.Joystick3Axis8, "Joy3 Axis 8"},
+		{Axes.Joystick3Axis9, "Joy3 Axis 9"},
+		{Axes.Joystick3Axis10, "Joy3 Axis 10"},
+		{Axes.Joystick4Axis1, "Joy4 Axis 1"},
+		{Axes.Joystick4Axis2, "Joy4 Axis 2"},
+		{Axes.Joystick4Axis3, "Joy4 Axis 3"},
+		{Axes.Joystick4Axis4, "Joy4 Axis 4"},
+		{Axes.Joystick4Axis5, "Joy4 Axis 5"},
+		{Axes.Joystick4Axis6, "Joy4 Axis 6"},
+		{Axes.Joystick4Axis7, "Joy4 Axis 7"},
+		{Axes.Joystick4Axis8, "Joy4 Axis 8"},
+		{Axes.Joystick4Axis9, "Joy4 Axis 9"},
+		{Axes.Joystick4Axis10, "Joy4 Axis 10"},
+		{Axes.Joystick5Axis1, "Joy5 Axis 1"},
+		{Axes.Joystick5Axis2, "Joy5 Axis 2"},
+		{Axes.Joystick5Axis3, "Joy5 Axis 3"},
+		{Axes.Joystick5Axis4, "Joy5 Axis 4"},
+		{Axes.Joystick5Axis5, "Joy5 Axis 5"},
+		{Axes.Joystick5Axis6, "Joy5 Axis 6"},
+		{Axes.Joystick5Axis7, "Joy5 Axis 7"},
+		{Axes.Joystick5Axis8, "Joy5 Axis 8"},
+		{Axes.Joystick5Axis9, "Joy5 Axis 9"},
+		{Axes.Joystick5Axis10, "Joy5 Axis 10"},
+		{Axes.Joystick6Axis1, "Joy6 Axis 1"},
+		{Axes.Joystick6Axis2, "Joy6 Axis 2"},
+		{Axes.Joystick6Axis3, "Joy6 Axis 3"},
+		{Axes.Joystick6Axis4, "Joy6 Axis 4"},
+		{Axes.Joystick6Axis5, "Joy6 Axis 5"},
+		{Axes.Joystick6Axis6, "Joy6 Axis 6"},
+		{Axes.Joystick6Axis7, "Joy6 Axis 7"},
+		{Axes.Joystick6Axis8, "Joy6 Axis 8"},
+		{Axes.Joystick6Axis9, "Joy6 Axis 9"},
+		{Axes.Joystick6Axis10, "Joy6 Axis 10"},
+		{Axes.Joystick7Axis1, "Joy7 Axis 1"},
+		{Axes.Joystick7Axis2, "Joy7 Axis 2"},
+		{Axes.Joystick7Axis3, "Joy7 Axis 3"},
+		{Axes.Joystick7Axis4, "Joy7 Axis 4"},
+		{Axes.Joystick7Axis5, "Joy7 Axis 5"},
+		{Axes.Joystick7Axis6, "Joy7 Axis 6"},
+		{Axes.Joystick7Axis7, "Joy7 Axis 7"},
+		{Axes.Joystick7Axis8, "Joy7 Axis 8"},
+		{Axes.Joystick7Axis9, "Joy7 Axis 9"},
+		{Axes.Joystick7Axis10, "Joy7 Axis 10"},
+		{Axes.Joystick8Axis1, "Joy8 Axis 1"},
+		{Axes.Joystick8Axis2, "Joy8 Axis 2"},
+		{Axes.Joystick8Axis3, "Joy8 Axis 3"},
+		{Axes.Joystick8Axis4, "Joy8 Axis 4"},
+		{Axes.Joystick8Axis5, "Joy8 Axis 5"},
+		{Axes.Joystick8Axis6, "Joy8 Axis 6"},
+		{Axes.Joystick8Axis7, "Joy8 Axis 7"},
+		{Axes.Joystick8Axis8, "Joy8 Axis 8"},
+		{Axes.Joystick8Axis9, "Joy8 Axis 9"},
+		{Axes.Joystick8Axis10, "Joy8 Axis 10"},
+		{Axes.Joystick9Axis1, "Joy9 Axis 1"},
+		{Axes.Joystick9Axis2, "Joy9 Axis 2"},
+		{Axes.Joystick9Axis3, "Joy9 Axis 3"},
+		{Axes.Joystick9Axis4, "Joy9 Axis 4"},
+		{Axes.Joystick9Axis5, "Joy9 Axis 5"},
+		{Axes.Joystick9Axis6, "Joy9 Axis 6"},
+		{Axes.Joystick9Axis7, "Joy9 Axis 7"},
+		{Axes.Joystick9Axis8, "Joy9 Axis 8"},
+		{Axes.Joystick9Axis9, "Joy9 Axis 9"},
+		{Axes.Joystick9Axis10, "Joy9 Axis 10"},
+		{Axes.Joystick10Axis1, "Joy10 Axis 1"},
+		{Axes.Joystick10Axis2, "Joy10 Axis 2"},
+		{Axes.Joystick10Axis3, "Joy10 Axis 3"},
+		{Axes.Joystick10Axis4, "Joy10 Axis 4"},
+		{Axes.Joystick10Axis5, "Joy10 Axis 5"},
+		{Axes.Joystick10Axis6, "Joy10 Axis 6"},
+		{Axes.Joystick10Axis7, "Joy10 Axis 7"},
+		{Axes.Joystick10Axis8, "Joy10 Axis 8"},
+		{Axes.Joystick10Axis9, "Joy10 Axis 9"},
+		{Axes.Joystick10Axis10, "Joy10 Axis 10"},
+		{Axes.None, ""}
 	};
 	/// <summary>
 	/// The string to key code.
@@ -520,13 +520,13 @@ static public class OpenInput {
 	/// <returns>
 	/// The current axis.
 	/// </returns>
-	static public UnityAxis GetCurrentAxis() {
-		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
+	static public Axes GetCurrentAxis() {
+		Dictionary<Axes, string>.Enumerator enumerator = AxesMap.GetEnumerator();
 		while (enumerator.MoveNext()) {
 			if (Input.GetAxis(enumerator.Current.Value) > 0.0f || Input.GetAxis(enumerator.Current.Value) < 0.0f) return enumerator.Current.Key;
 		}
 		
-		return UnityAxis.None;
+		return Axes.None;
 	}
 	
 	/// <summary>
@@ -652,13 +652,13 @@ static public class OpenInput {
 	/// <returns>
 	/// The current negative axis.
 	/// </returns>
-	static public UnityAxis GetCurrentNegativeAxis() {
-		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
+	static public Axes GetCurrentNegativeAxis() {
+		Dictionary<Axes, string>.Enumerator enumerator = AxesMap.GetEnumerator();
 		while (enumerator.MoveNext()) {
 			if (Input.GetAxis(enumerator.Current.Value) < 0.0f) return enumerator.Current.Key;
 		}
 		
-		return UnityAxis.None;
+		return Axes.None;
 	}
 	
 	/// <summary>
@@ -667,13 +667,13 @@ static public class OpenInput {
 	/// <returns>
 	/// The current positive axis.
 	/// </returns>
-	static public UnityAxis GetCurrentPositiveAxis() {
-		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
+	static public Axes GetCurrentPositiveAxis() {
+		Dictionary<Axes, string>.Enumerator enumerator = AxesMap.GetEnumerator();
 		while (enumerator.MoveNext()) {
 			if (Input.GetAxis(enumerator.Current.Value) > 0.0f) return enumerator.Current.Key;
 		}
 		
-		return UnityAxis.None;
+		return Axes.None;
 	}
 	
 	/// <summary>
@@ -722,7 +722,7 @@ static public class OpenInput {
 	/// Is thrown when the unity exception.
 	/// </exception>
 	public class OpenInputProfile {
-		Dictionary<string, List<UnityAxis>> AxisActions;
+		Dictionary<string, List<Axes>> AxisActions;
 		Dictionary<string, List<AxisKeys>> AxisKeysActions;
 		Dictionary<string, List<KeyCode>> ButtonActions;
 		string id;
@@ -735,11 +735,11 @@ static public class OpenInput {
 		/// </value>
 		public bool anyAxis {
 			get {
-				Dictionary<string, List<UnityAxis>>.Enumerator axisActionsEnumerator = AxisActions.GetEnumerator();
+				Dictionary<string, List<Axes>>.Enumerator axisActionsEnumerator = AxisActions.GetEnumerator();
 				while(axisActionsEnumerator.MoveNext()) {
-					List<UnityAxis>.Enumerator axisEnumerator = axisActionsEnumerator.Current.Value.GetEnumerator();
+					List<Axes>.Enumerator axisEnumerator = axisActionsEnumerator.Current.Value.GetEnumerator();
 					while(axisEnumerator.MoveNext()) {
-						if (Input.GetAxis(AxisMap[axisEnumerator.Current]) > 0.0f || Input.GetAxis(AxisMap[axisEnumerator.Current]) < 0.0f) return true;
+						if (Input.GetAxis(AxesMap[axisEnumerator.Current]) > 0.0f || Input.GetAxis(AxesMap[axisEnumerator.Current]) < 0.0f) return true;
 					}
 				}
 				
@@ -803,7 +803,7 @@ static public class OpenInput {
 		/// </param>
 		public OpenInputProfile(string profileId) {
 			ButtonActions = new Dictionary<string, List<KeyCode>>();
-			AxisActions = new Dictionary<string, List<UnityAxis>>();
+			AxisActions = new Dictionary<string, List<Axes>>();
 			AxisKeysActions = new Dictionary<string, List<AxisKeys>>();
 			
 			id = profileId;
@@ -820,11 +820,11 @@ static public class OpenInput {
 		/// </param>
 		public float GetAxis(string actionName) {
 			if (AxisActions.ContainsKey(actionName)) {
-				List<UnityAxis>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
+				List<Axes>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
 				
 				float result;
 				while (enumerator.MoveNext()) {
-					result = Input.GetAxis(AxisMap[enumerator.Current]);
+					result = Input.GetAxis(AxesMap[enumerator.Current]);
 					if (result != 0.0f) {
 						return result;
 					}
@@ -854,11 +854,11 @@ static public class OpenInput {
 		/// </param>
 		public float GetAxisRaw(string actionName) {
 			if (AxisActions.ContainsKey(actionName)) {
-				List<UnityAxis>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
+				List<Axes>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
 				
 				float result;
 				while (enumerator.MoveNext()) {
-					result = Input.GetAxisRaw(AxisMap[enumerator.Current]);
+					result = Input.GetAxisRaw(AxesMap[enumerator.Current]);
 					if (result != 0.0f) {
 						return result;
 					}
@@ -1119,15 +1119,15 @@ static public class OpenInput {
 		/// <param name='unityAxis'>
 		/// Unity axis.
 		/// </param>
-		public void SetAxis(string action, UnityAxis unityAxis) {
-			List<UnityAxis> listOfAxis;
+		public void SetAxis(string action, Axes unityAxis) {
+			List<Axes> listOfAxis;
 			if (!AxisActions.TryGetValue(action, out listOfAxis)) {
-				AxisActions.Add(action, new List<UnityAxis>());
+				AxisActions.Add(action, new List<Axes>());
 				listOfAxis = AxisActions[action];
 			}
 		
 			if (listOfAxis.Contains(unityAxis)) {
-				Debug.LogWarning("\"" + AxisMap[unityAxis] + "\" for \"" + action + "\" is already defined for this profile.");
+				Debug.LogWarning("\"" + AxesMap[unityAxis] + "\" for \"" + action + "\" is already defined for this profile.");
 			} else {
 				listOfAxis.Add(unityAxis);
 			}
