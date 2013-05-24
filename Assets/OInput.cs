@@ -1362,6 +1362,24 @@ static public class OInput {
 		}
 		
 		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='unityAxis'>
+		/// Unity axis.
+		/// </param>
+		public void SetAxis(string action, string unityAxis) {
+			Axis axis;
+			if (StringToAxis.TryGetValue(unityAxis.ToLower(), out axis)) {
+				SetAxis(action, axis);
+			} else {
+				throw new UnityException("Axis \"" + unityAxis + "\" is unknown.");
+			}
+		}
+		
+		/// <summary>
 		/// Sets the button.
 		/// </summary>
 		/// <param name='action'>
