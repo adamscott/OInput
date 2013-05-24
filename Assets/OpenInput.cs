@@ -931,7 +931,9 @@ static public class OpenInput {
 				
 				return 0.0f;
 			} else {
-				Debug.LogWarning("\"" + actionName + "\" is not defined as an axis action.");
+				if (!actionExists) {
+					Debug.LogWarning("\"" + actionName + "\" is not defined as an axis action.");
+				}
 				return 0.0f;
 			}
 		}
