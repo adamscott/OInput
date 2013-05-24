@@ -4,6 +4,17 @@ using System.Collections.Generic;
 
 static public class OpenInput {
 	
+	/// <summary>
+	/// Axis keys.
+	/// </summary>
+	struct AxisKeys {
+		public KeyCode Positive;
+		public KeyCode Negative;
+	}
+	
+	/// <summary>
+	/// Unity axis.
+	/// </summary>
 	public enum UnityAxis {
 		Horizontal,
 		Vertical,
@@ -121,11 +132,9 @@ static public class OpenInput {
 		None
 	}
 	
-	struct AxisKeys {
-		public KeyCode Positive;
-		public KeyCode Negative;
-	}
-	
+	/// <summary>
+	/// The axis map.
+	/// </summary>
 	static readonly Dictionary<UnityAxis,string> AxisMap = new Dictionary<UnityAxis, string>(){
 		{UnityAxis.Horizontal, "Horizontal"},
 		{UnityAxis.Vertical, "Vertical"},
@@ -242,8 +251,9 @@ static public class OpenInput {
 		{UnityAxis.Joystick10Axis10, "Joy10 Axis 10"},
 		{UnityAxis.None, ""}
 	};
-	
-	
+	/// <summary>
+	/// The string to key code.
+	/// </summary>
 	static public Dictionary<string, KeyCode> StringToKeyCode = new Dictionary<string, KeyCode>() {
 		{"backspace", KeyCode.Backspace},
 		{"delete", KeyCode.Delete},
@@ -486,31 +496,37 @@ static public class OpenInput {
 		{"joystick 4 button 18", KeyCode.Joystick4Button18},
 		{"joystick 4 button 19", KeyCode.Joystick4Button19}
 	};
-	
-	static private OpenInputProfile DefaultProfile;
+	/// <summary>
+	/// The profiles.
+	/// </summary>
 	static private Dictionary<string, OpenInputProfile> Profiles;
 	
-	static public OpenInputProfile GetProfile(string profileId) {
-		if (Profiles == null) Profiles = new Dictionary<string, OpenInputProfile>();
+	/// <summary>
+	/// The default profile.
+	/// </summary>
+	static private OpenInputProfile DefaultProfile;
+	
+	/// <summary>
+	/// Gets the current axis.
+	/// </summary>
+	/// <returns>
+	/// The current axis.
+	/// </returns>
+	static public UnityAxis GetCurrentAxis() {
+		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
+		while (enumerator.MoveNext()) {
+			if (Input.GetAxis(enumerator.Current.Value) > 0.0f || Input.GetAxis(enumerator.Current.Value) < 0.0f) return enumerator.Current.Key;
+		}
 		
-		OpenInputProfile profile;
-		if (Profiles.TryGetValue(profileId, out profile)) {
-			return profile;
-		} else {
-			Profiles[profileId] = new OpenInputProfile(profileId);
-			return Profiles[profileId];
-		}
+		return UnityAxis.None;
 	}
 	
-	static public OpenInputProfile GetDefaultProfile() {
-		if (DefaultProfile == null) {
-			DefaultProfile = GetProfile("default");
-			return DefaultProfile;
-		} else {
-			return DefaultProfile;
-		}
-	}
-	
+	/// <summary>
+	/// Gets the current key.
+	/// </summary>
+	/// <returns>
+	/// The current key.
+	/// </returns>
 	static public KeyCode GetCurrentKey() {
 		foreach(KeyCode key in KeyCode.GetValues(typeof(KeyCode))) {
 			// If Joystick detects a key, that's because Joystick 1, 2, 3, or 4 detects one.
@@ -544,39 +560,12 @@ static public class OpenInput {
 		return KeyCode.None;
 	}
 	
-	static public KeyCode GetCurrentKeyUp() {
-		foreach(KeyCode key in KeyCode.GetValues(typeof(KeyCode))) {
-			// If Joystick detects a key, that's because Joystick 1, 2, 3, or 4 detects one.
-			switch (key) {
-			case KeyCode.JoystickButton0:
-			case KeyCode.JoystickButton1:
-			case KeyCode.JoystickButton2:
-			case KeyCode.JoystickButton3:
-			case KeyCode.JoystickButton4:
-			case KeyCode.JoystickButton5:
-			case KeyCode.JoystickButton6:
-			case KeyCode.JoystickButton7:
-			case KeyCode.JoystickButton8:
-			case KeyCode.JoystickButton9:
-			case KeyCode.JoystickButton10:
-			case KeyCode.JoystickButton11:
-			case KeyCode.JoystickButton12:
-			case KeyCode.JoystickButton13:
-			case KeyCode.JoystickButton14:
-			case KeyCode.JoystickButton15:
-			case KeyCode.JoystickButton16:
-			case KeyCode.JoystickButton17:
-			case KeyCode.JoystickButton18:
-			case KeyCode.JoystickButton19:
-				continue;
-			default:
-				break;
-			}
-			if (Input.GetKeyUp(key)) return key;
-		}
-		return KeyCode.None;
-	}
-	
+	/// <summary>
+	/// Gets the current key down.
+	/// </summary>
+	/// <returns>
+	/// The current key down.
+	/// </returns>
 	static public KeyCode GetCurrentKeyDown() {
 		foreach(KeyCode key in KeyCode.GetValues(typeof(KeyCode))) {
 			// If Joystick detects a key, that's because Joystick 1, 2, 3, or 4 detects one.
@@ -610,24 +599,51 @@ static public class OpenInput {
 		return KeyCode.None;
 	}
 	
-	static public UnityAxis GetCurrentAxis() {
-		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
-		while (enumerator.MoveNext()) {
-			if (Input.GetAxis(enumerator.Current.Value) > 0.0f || Input.GetAxis(enumerator.Current.Value) < 0.0f) return enumerator.Current.Key;
+	/// <summary>
+	/// Gets the current key up.
+	/// </summary>
+	/// <returns>
+	/// The current key up.
+	/// </returns>
+	static public KeyCode GetCurrentKeyUp() {
+		foreach(KeyCode key in KeyCode.GetValues(typeof(KeyCode))) {
+			// If Joystick detects a key, that's because Joystick 1, 2, 3, or 4 detects one.
+			switch (key) {
+			case KeyCode.JoystickButton0:
+			case KeyCode.JoystickButton1:
+			case KeyCode.JoystickButton2:
+			case KeyCode.JoystickButton3:
+			case KeyCode.JoystickButton4:
+			case KeyCode.JoystickButton5:
+			case KeyCode.JoystickButton6:
+			case KeyCode.JoystickButton7:
+			case KeyCode.JoystickButton8:
+			case KeyCode.JoystickButton9:
+			case KeyCode.JoystickButton10:
+			case KeyCode.JoystickButton11:
+			case KeyCode.JoystickButton12:
+			case KeyCode.JoystickButton13:
+			case KeyCode.JoystickButton14:
+			case KeyCode.JoystickButton15:
+			case KeyCode.JoystickButton16:
+			case KeyCode.JoystickButton17:
+			case KeyCode.JoystickButton18:
+			case KeyCode.JoystickButton19:
+				continue;
+			default:
+				break;
+			}
+			if (Input.GetKeyUp(key)) return key;
 		}
-		
-		return UnityAxis.None;
+		return KeyCode.None;
 	}
 	
-	static public UnityAxis GetCurrentPositiveAxis() {
-		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
-		while (enumerator.MoveNext()) {
-			if (Input.GetAxis(enumerator.Current.Value) > 0.0f) return enumerator.Current.Key;
-		}
-		
-		return UnityAxis.None;
-	}
-	
+	/// <summary>
+	/// Gets the current negative axis.
+	/// </summary>
+	/// <returns>
+	/// The current negative axis.
+	/// </returns>
 	static public UnityAxis GetCurrentNegativeAxis() {
 		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
 		while (enumerator.MoveNext()) {
@@ -637,40 +653,78 @@ static public class OpenInput {
 		return UnityAxis.None;
 	}
 	
+	/// <summary>
+	/// Gets the current positive axis.
+	/// </summary>
+	/// <returns>
+	/// The current positive axis.
+	/// </returns>
+	static public UnityAxis GetCurrentPositiveAxis() {
+		Dictionary<UnityAxis, string>.Enumerator enumerator = AxisMap.GetEnumerator();
+		while (enumerator.MoveNext()) {
+			if (Input.GetAxis(enumerator.Current.Value) > 0.0f) return enumerator.Current.Key;
+		}
+		
+		return UnityAxis.None;
+	}
+	
+	/// <summary>
+	/// Gets the default profile.
+	/// </summary>
+	/// <returns>
+	/// The default profile.
+	/// </returns>
+	static public OpenInputProfile GetDefaultProfile() {
+		if (DefaultProfile == null) {
+			DefaultProfile = GetProfile("default");
+			return DefaultProfile;
+		} else {
+			return DefaultProfile;
+		}
+	}
+	
+	/// <summary>
+	/// Gets the profile.
+	/// </summary>
+	/// <returns>
+	/// The profile.
+	/// </returns>
+	/// <param name='profileId'>
+	/// Profile identifier.
+	/// </param>
+	static public OpenInputProfile GetProfile(string profileId) {
+		if (Profiles == null) Profiles = new Dictionary<string, OpenInputProfile>();
+		
+		OpenInputProfile profile;
+		if (Profiles.TryGetValue(profileId, out profile)) {
+			return profile;
+		} else {
+			Profiles[profileId] = new OpenInputProfile(profileId);
+			return Profiles[profileId];
+		}
+	}
+	
+	/*
+	 * OpenInputProfile class
+	 */
+	/// <summary>
+	/// Open input profile.
+	/// </summary>
+	/// <exception cref='UnityException'>
+	/// Is thrown when the unity exception.
+	/// </exception>
 	public class OpenInputProfile {
-		Dictionary<string, List<KeyCode>> ButtonActions;
 		Dictionary<string, List<UnityAxis>> AxisActions;
 		Dictionary<string, List<AxisKeys>> AxisKeysActions;
+		Dictionary<string, List<KeyCode>> ButtonActions;
 		string id;
 		
-		public bool anyButton {
-			get {
-				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
-				while(buttonActionsEnumerator.MoveNext()) {
-					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
-					while(keyEnumerator.MoveNext()) {
-						if (Input.GetKey(keyEnumerator.Current)) return true;
-					}
-				}
-				
-				return false;
-			}
-		}
-		
-		public bool anyButtonDown {
-			get {
-				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
-				while(buttonActionsEnumerator.MoveNext()) {
-					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
-					while(keyEnumerator.MoveNext()) {
-						if (Input.GetKeyDown(keyEnumerator.Current)) return true;
-					}
-				}
-				
-				return false;
-			}
-		}
-		
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any axis.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if any axis; otherwise, <c>false</c>.
+		/// </value>
 		public bool anyAxis {
 			get {
 				Dictionary<string, List<UnityAxis>>.Enumerator axisActionsEnumerator = AxisActions.GetEnumerator();
@@ -693,6 +747,52 @@ static public class OpenInput {
 			}
 		}
 		
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any button.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if any button; otherwise, <c>false</c>.
+		/// </value>
+		public bool anyButton {
+			get {
+				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
+				while(buttonActionsEnumerator.MoveNext()) {
+					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
+					while(keyEnumerator.MoveNext()) {
+						if (Input.GetKey(keyEnumerator.Current)) return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any button down.
+		/// </summary>
+		/// <value>
+		/// <c>true</c> if any button down; otherwise, <c>false</c>.
+		/// </value>
+		public bool anyButtonDown {
+			get {
+				Dictionary<string, List<KeyCode>>.Enumerator buttonActionsEnumerator = ButtonActions.GetEnumerator();
+				while(buttonActionsEnumerator.MoveNext()) {
+					List<KeyCode>.Enumerator keyEnumerator = buttonActionsEnumerator.Current.Value.GetEnumerator();
+					while(keyEnumerator.MoveNext()) {
+						if (Input.GetKeyDown(keyEnumerator.Current)) return true;
+					}
+				}
+				
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenInput.OpenInputProfile"/> class.
+		/// </summary>
+		/// <param name='profileId'>
+		/// Profile identifier.
+		/// </param>
 		public OpenInputProfile(string profileId) {
 			ButtonActions = new Dictionary<string, List<KeyCode>>();
 			AxisActions = new Dictionary<string, List<UnityAxis>>();
@@ -701,6 +801,15 @@ static public class OpenInput {
 			id = profileId;
 		}
 		
+		/// <summary>
+		/// Gets the axis.
+		/// </summary>
+		/// <returns>
+		/// The axis.
+		/// </returns>
+		/// <param name='actionName'>
+		/// Action name.
+		/// </param>
 		public float GetAxis(string actionName) {
 			if (AxisActions.ContainsKey(actionName)) {
 				List<UnityAxis>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
@@ -726,6 +835,15 @@ static public class OpenInput {
 			}
 		}
 		
+		/// <summary>
+		/// Gets the axis raw.
+		/// </summary>
+		/// <returns>
+		/// The axis raw.
+		/// </returns>
+		/// <param name='actionName'>
+		/// Action name.
+		/// </param>
 		public float GetAxisRaw(string actionName) {
 			if (AxisActions.ContainsKey(actionName)) {
 				List<UnityAxis>.Enumerator enumerator = AxisActions[actionName].GetEnumerator();
@@ -752,6 +870,42 @@ static public class OpenInput {
 			}
 		}
 		
+		/// <summary>
+		/// Gets the button.
+		/// </summary>
+		/// <returns>
+		/// The button.
+		/// </returns>
+		/// <param name='actionName'>
+		/// If set to <c>true</c> action name.
+		/// </param>
+		public bool GetButton(string actionName) {
+			if (ButtonActions.ContainsKey(actionName)) {
+				List<KeyCode>.Enumerator enumerator = ButtonActions[actionName].GetEnumerator();
+				
+				while (enumerator.MoveNext()) {
+					if (Input.GetKey(enumerator.Current)) return true;
+				}
+				
+				return false;
+			} else {
+				Debug.LogWarning("\"" + actionName + "\" is not defined as an button action.");
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Gets the button axis.
+		/// </summary>
+		/// <returns>
+		/// The button axis.
+		/// </returns>
+		/// <param name='actionName'>
+		/// Action name.
+		/// </param>
+		/// <param name='actionExists'>
+		/// Action exists.
+		/// </param>
 		protected float GetButtonAxis(string actionName, bool actionExists = false) {
 			if (AxisKeysActions.ContainsKey(actionName)) {
 				List<AxisKeys>.Enumerator enumerator = AxisKeysActions[actionName].GetEnumerator();
@@ -774,36 +928,15 @@ static public class OpenInput {
 			}
 		}
 		
-		public bool GetButton(string actionName) {
-			if (ButtonActions.ContainsKey(actionName)) {
-				List<KeyCode>.Enumerator enumerator = ButtonActions[actionName].GetEnumerator();
-				
-				while (enumerator.MoveNext()) {
-					if (Input.GetKey(enumerator.Current)) return true;
-				}
-				
-				return false;
-			} else {
-				Debug.LogWarning("\"" + actionName + "\" is not defined as an button action.");
-				return false;
-			}
-		}
-		
-		public bool GetButtonUp(string actionName) {
-			if (ButtonActions.ContainsKey(actionName)) {
-				List<KeyCode>.Enumerator enumerator = ButtonActions[actionName].GetEnumerator();
-				
-				while (enumerator.MoveNext()) {
-					if (Input.GetKeyUp(enumerator.Current)) return true;
-				}
-				
-				return false;
-			} else {
-				Debug.LogWarning("\"" + actionName + "\" is not defined as an button action.");
-				return false;
-			}
-		}
-		
+		/// <summary>
+		/// Gets the button down.
+		/// </summary>
+		/// <returns>
+		/// The button down.
+		/// </returns>
+		/// <param name='actionName'>
+		/// If set to <c>true</c> action name.
+		/// </param>
 		public bool GetButtonDown(string actionName) {
 			if (ButtonActions.ContainsKey(actionName)) {
 				List<KeyCode>.Enumerator enumerator = ButtonActions[actionName].GetEnumerator();
@@ -819,44 +952,136 @@ static public class OpenInput {
 			}
 		}
 		
-		public void SetButton(string action, KeyCode key) {
-			List<KeyCode> listOfButtons;
+		/// <summary>
+		/// Gets the button up.
+		/// </summary>
+		/// <returns>
+		/// The button up.
+		/// </returns>
+		/// <param name='actionName'>
+		/// If set to <c>true</c> action name.
+		/// </param>
+		public bool GetButtonUp(string actionName) {
+			if (ButtonActions.ContainsKey(actionName)) {
+				List<KeyCode>.Enumerator enumerator = ButtonActions[actionName].GetEnumerator();
+				
+				while (enumerator.MoveNext()) {
+					if (Input.GetKeyUp(enumerator.Current)) return true;
+				}
+				
+				return false;
+			} else {
+				Debug.LogWarning("\"" + actionName + "\" is not defined as an button action.");
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Gets the identifier.
+		/// </summary>
+		/// <returns>
+		/// The identifier.
+		/// </returns>
+		public string GetId() {
+			return id;
+		}
+		
+		/// <summary>
+		/// Sets as default profile.
+		/// </summary>
+		public void SetAsDefaultProfile() {
+			DefaultProfile = this;
+		}
+		
+		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='positiveKey'>
+		/// Positive key.
+		/// </param>
+		/// <param name='negativeKey'>
+		/// Negative key.
+		/// </param>
+		/// <exception cref='UnityException'>
+		/// Is thrown when the unity exception.
+		/// </exception>
+		public void SetAxis(string action, string positiveKey, string negativeKey) {
+			KeyCode positive;
+			if (!StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
+				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
+			}
 			
-			if (!ButtonActions.TryGetValue(action, out listOfButtons)) {
-				ButtonActions.Add(action, new List<KeyCode>());
-				listOfButtons = ButtonActions[action];
+			KeyCode negative;
+			if (!StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
+				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
 			}
 			
-			if (listOfButtons.Contains(key)) {
-				Debug.LogWarning("\"" + key.ToString() + "\" for \"" + action + "\" is already defined for this profile.");
+			SetAxis(action, positive, negative);
+		}
+		
+		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='positiveKey'>
+		/// Positive key.
+		/// </param>
+		/// <param name='negativeKey'>
+		/// Negative key.
+		/// </param>
+		/// <exception cref='UnityException'>
+		/// Is thrown when the unity exception.
+		/// </exception>
+		public void SetAxis(string action, KeyCode positiveKey, string negativeKey) {
+			KeyCode negative;
+			if (StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
+				SetAxis(action, positiveKey, negative);
 			} else {
-				listOfButtons.Add(key);
+				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
+			}			
+		}
+		
+		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='positiveKey'>
+		/// Positive key.
+		/// </param>
+		/// <param name='negativeKey'>
+		/// Negative key.
+		/// </param>
+		/// <exception cref='UnityException'>
+		/// Is thrown when the unity exception.
+		/// </exception>
+		public void SetAxis(string action, string positiveKey, KeyCode negativeKey) {
+			KeyCode positive;
+			if (StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
+				SetAxis(action, positive, negativeKey);
+			} else {
+				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
 			}
 		}
 		
-		public void SetButton(string action, string key) {
-			KeyCode keyCode;
-			if (StringToKeyCode.TryGetValue(key, out keyCode)) {
-				SetButton(action, keyCode);
-			} else {
-				throw new UnityException("Key \"" + key + "\" is unknown.");
-			}
-		}
-		
-		public void SetAxis(string action, UnityAxis unityAxis) {
-			List<UnityAxis> listOfAxis;
-			if (!AxisActions.TryGetValue(action, out listOfAxis)) {
-				AxisActions.Add(action, new List<UnityAxis>());
-				listOfAxis = AxisActions[action];
-			}
-		
-			if (listOfAxis.Contains(unityAxis)) {
-				Debug.LogWarning("\"" + AxisMap[unityAxis] + "\" for \"" + action + "\" is already defined for this profile.");
-			} else {
-				listOfAxis.Add(unityAxis);
-			}
-		}
-		
+		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='positiveKey'>
+		/// Positive key.
+		/// </param>
+		/// <param name='negativeKey'>
+		/// Negative key.
+		/// </param>
 		public void SetAxis(string action, KeyCode positiveKey, KeyCode negativeKey) {
 			List<AxisKeys> listOfAxisKeys;
 			if (!AxisKeysActions.TryGetValue(action, out listOfAxisKeys)) {
@@ -875,61 +1100,113 @@ static public class OpenInput {
 			}
 		}
 		
-		public void SetAxis(string action, string positiveKey, string negativeKey) {
-			KeyCode positive;
-			if (!StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
-				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
+		/// <summary>
+		/// Sets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='unityAxis'>
+		/// Unity axis.
+		/// </param>
+		public void SetAxis(string action, UnityAxis unityAxis) {
+			List<UnityAxis> listOfAxis;
+			if (!AxisActions.TryGetValue(action, out listOfAxis)) {
+				AxisActions.Add(action, new List<UnityAxis>());
+				listOfAxis = AxisActions[action];
+			}
+		
+			if (listOfAxis.Contains(unityAxis)) {
+				Debug.LogWarning("\"" + AxisMap[unityAxis] + "\" for \"" + action + "\" is already defined for this profile.");
+			} else {
+				listOfAxis.Add(unityAxis);
+			}
+		}
+		
+		/// <summary>
+		/// Sets the button.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='key'>
+		/// Key.
+		/// </param>
+		/// <exception cref='UnityException'>
+		/// Is thrown when the unity exception.
+		/// </exception>
+		public void SetButton(string action, string key) {
+			KeyCode keyCode;
+			if (StringToKeyCode.TryGetValue(key, out keyCode)) {
+				SetButton(action, keyCode);
+			} else {
+				throw new UnityException("Key \"" + key + "\" is unknown.");
+			}
+		}
+		
+		/// <summary>
+		/// Sets the button.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='key'>
+		/// Key.
+		/// </param>
+		public void SetButton(string action, KeyCode key) {
+			List<KeyCode> listOfButtons;
+			
+			if (!ButtonActions.TryGetValue(action, out listOfButtons)) {
+				ButtonActions.Add(action, new List<KeyCode>());
+				listOfButtons = ButtonActions[action];
 			}
 			
-			KeyCode negative;
-			if (!StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
-				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
+			if (listOfButtons.Contains(key)) {
+				Debug.LogWarning("\"" + key.ToString() + "\" for \"" + action + "\" is already defined for this profile.");
+			} else {
+				listOfButtons.Add(key);
 			}
+		}
+		
+		/// <summary>
+		/// Unsets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
+		/// <param name='positiveKey'>
+		/// Positive key.
+		/// </param>
+		/// <param name='negativeKey'>
+		/// Negative key.
+		/// </param>
+		public void UnsetAxis(string action, KeyCode positiveKey, KeyCode negativeKey) {
 			
-			SetAxis(action, positive, negative);
 		}
 		
-		public void SetAxis(string action, KeyCode positiveKey, string negativeKey) {
-			KeyCode negative;
-			if (StringToKeyCode.TryGetValue(negativeKey.ToLower(), out negative)) {
-				SetAxis(action, positiveKey, negative);
-			} else {
-				throw new UnityException("Negative key \"" + negativeKey + "\" is unknown.");
-			}			
-		}
-		
-		public void SetAxis(string action, string positiveKey, KeyCode negativeKey) {
-			KeyCode positive;
-			if (StringToKeyCode.TryGetValue(positiveKey.ToLower(), out positive)) {
-				SetAxis(action, positive, negativeKey);
-			} else {
-				throw new UnityException("Positive key \"" + positiveKey + "\" is unknown.");
-			}
-		}
-		
+		/// <summary>
+		/// Unsets the axis.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
 		public void UnsetAxis(string action) {
 			if (!AxisActions.Remove(action) && !AxisKeysActions.Remove(action)) {
 				Debug.LogWarning("Could not remove \"" + action + "\" from the axis.");
 			}
 		}
-		/*
-		public void UnsetAxis(string action, KeyCode positiveKey, KeyCode negativeKey) {
-			
-		}
-		*/
 		
+		/// <summary>
+		/// Unsets the button.
+		/// </summary>
+		/// <param name='action'>
+		/// Action.
+		/// </param>
 		public void UnsetButton(string action) {
 			if (!ButtonActions.Remove(action)) {
 				Debug.LogWarning("Could not remove \"" + action + "\" from the keys.");
 			}
 		}
 		
-		public string GetId() {
-			return id;
-		}
-		
-		public void SetAsDefaultProfile() {
-			DefaultProfile = this;
-		}
 	}
 }
