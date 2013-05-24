@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-static public class OpenInput {
+static public class OInput {
 	
 	/// <summary>
 	/// Axis keys.
@@ -507,12 +507,12 @@ static public class OpenInput {
 	/// <summary>
 	/// The profiles.
 	/// </summary>
-	static private Dictionary<string, OpenInputProfile> Profiles;
+	static private Dictionary<string, OInputProfile> Profiles;
 	
 	/// <summary>
 	/// The default profile.
 	/// </summary>
-	static private OpenInputProfile DefaultProfile;
+	static private OInputProfile DefaultProfile;
 	
 	/// <summary>
 	/// Gets the current axis.
@@ -682,7 +682,7 @@ static public class OpenInput {
 	/// <returns>
 	/// The default profile.
 	/// </returns>
-	static public OpenInputProfile GetDefaultProfile() {
+	static public OInputProfile GetDefaultProfile() {
 		if (DefaultProfile == null) {
 			DefaultProfile = GetProfile("default");
 			return DefaultProfile;
@@ -700,20 +700,20 @@ static public class OpenInput {
 	/// <param name='profileId'>
 	/// Profile identifier.
 	/// </param>
-	static public OpenInputProfile GetProfile(string profileId) {
-		if (Profiles == null) Profiles = new Dictionary<string, OpenInputProfile>();
+	static public OInputProfile GetProfile(string profileId) {
+		if (Profiles == null) Profiles = new Dictionary<string, OInputProfile>();
 		
-		OpenInputProfile profile;
+		OInputProfile profile;
 		if (Profiles.TryGetValue(profileId, out profile)) {
 			return profile;
 		} else {
-			Profiles[profileId] = new OpenInputProfile(profileId);
+			Profiles[profileId] = new OInputProfile(profileId);
 			return Profiles[profileId];
 		}
 	}
 	
 	/*
-	 * OpenInputProfile class
+	 * OInputProfile class
 	 */
 	/// <summary>
 	/// Open input profile.
@@ -721,14 +721,14 @@ static public class OpenInput {
 	/// <exception cref='UnityException'>
 	/// Is thrown when the unity exception.
 	/// </exception>
-	public class OpenInputProfile {
+	public class OInputProfile {
 		Dictionary<string, List<Axes>> AxisActions;
 		Dictionary<string, List<AxisKeys>> AxisKeysActions;
 		Dictionary<string, List<KeyCode>> ButtonActions;
 		string id;
 		
 		/// <summary>
-		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any axis.
+		/// Gets a value indicating whether this <see cref="OInput.OInputProfile"/> any axis.
 		/// </summary>
 		/// <value>
 		/// <c>true</c> if any axis; otherwise, <c>false</c>.
@@ -756,7 +756,7 @@ static public class OpenInput {
 		}
 		
 		/// <summary>
-		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any button.
+		/// Gets a value indicating whether this <see cref="OInput.OInputProfile"/> any button.
 		/// </summary>
 		/// <value>
 		/// <c>true</c> if any button; otherwise, <c>false</c>.
@@ -776,7 +776,7 @@ static public class OpenInput {
 		}
 		
 		/// <summary>
-		/// Gets a value indicating whether this <see cref="OpenInput.OpenInputProfile"/> any button down.
+		/// Gets a value indicating whether this <see cref="OInput.OInputProfile"/> any button down.
 		/// </summary>
 		/// <value>
 		/// <c>true</c> if any button down; otherwise, <c>false</c>.
@@ -796,12 +796,12 @@ static public class OpenInput {
 		}
 		
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenInput.OpenInputProfile"/> class.
+		/// Initializes a new instance of the <see cref="OInput.OInputProfile"/> class.
 		/// </summary>
 		/// <param name='profileId'>
 		/// Profile identifier.
 		/// </param>
-		public OpenInputProfile(string profileId) {
+		public OInputProfile(string profileId) {
 			ButtonActions = new Dictionary<string, List<KeyCode>>();
 			AxisActions = new Dictionary<string, List<Axes>>();
 			AxisKeysActions = new Dictionary<string, List<AxisKeys>>();
