@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
 
 static public class OInput {
 	
@@ -950,9 +951,16 @@ static public class OInput {
 	/// Is thrown when the unity exception.
 	/// </exception>
 	public class OInputProfile {
+		
+		const string PLAYER_PREFS_PROFILE_SAVE_PREFIX = "OInput_PlayerProfile_";
+		const string AXIS_ACTIONS_NODE_TYPE = "AxisActions";
+		const string AXIS_KEYS_ACTIONS_NODE_TYPE = "AxisKeysActions";
+		const string BUTTON_ACTIONS_NODE_TYPE = "ButtonActions";
+		
 		Dictionary<string, List<Axis>> AxisActions;
 		Dictionary<string, List<AxisKeys>> AxisKeysActions;
 		Dictionary<string, List<KeyCode>> ButtonActions;
+		
 		string id;
 		
 		/// <summary>
@@ -1464,5 +1472,243 @@ static public class OInput {
 			}
 		}
 		
+		/// <summary>
+		/// Saves the profile to PlayerPrefs.
+		/// </summary>
+		/// <returns>
+		/// The profile to PlayerPrefs.
+		/// </returns>
+		/// <param name='savePlayerPrefs'>
+		/// If set to <c>true</c>, calls PlayerPrefs.Save();
+		/// </param>
+		public bool SaveProfileToPlayerPrefs(bool savePlayerPrefs = false) {
+			try {
+				XmlDocument document = new XmlDocument();
+				XmlNode documentNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+				document.AppendChild(documentNode);
+				
+				XmlElement documentInputNode = document.CreateElement("input");
+				documentInputNode.SetAttribute("profileName", id);
+				document.AppendChild(documentInputNode);
+				
+				documentInputNode.AppendChild(SetAxisActionsInXMLDocument(document));
+				documentInputNode.AppendChild(SetAxisKeysActionsInXMLDocument(document));
+				documentInputNode.AppendChild(SetButtonActionsInXMLDocument(document));
+			
+				PlayerPrefs.SetString(PLAYER_PREFS_PROFILE_SAVE_PREFIX + id, document.InnerXml);
+				
+				if (savePlayerPrefs) PlayerPrefs.Save();
+				
+				return true;
+			} catch (System.Exception error) {
+				Debug.LogError(error);
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Loads the profile from PlayerPrefs.
+		/// </summary>
+		/// <returns>
+		/// The profile from PlayerPrefs.
+		/// </returns>
+		public bool LoadProfileFromPlayerPrefs() {
+			if (!PlayerPrefs.HasKey(PLAYER_PREFS_PROFILE_SAVE_PREFIX + id)) {
+				Debug.LogError("Couldn't load the profile for " + id + ". It doesn't exist in PlayerPrefs.");
+				return false;
+			}
+			
+			try {
+				string xml = PlayerPrefs.GetString(PLAYER_PREFS_PROFILE_SAVE_PREFIX + id);
+				
+				Clear();
+				
+				XmlDocument document = new XmlDocument();
+				document.LoadXml(xml);
+				
+				XmlNodeList actionsList = document.SelectNodes("/input/actions");
+				XmlNodeList actionList;
+				XmlNodeList keyList;
+				foreach (XmlNode actions in actionsList) {
+					switch (actions.Attributes["type"].Value) {
+					case AXIS_ACTIONS_NODE_TYPE:
+						actionList = actions.SelectNodes("./action");
+						foreach (XmlNode action in actionList) {
+							keyList = action.SelectNodes("./key");
+							List<Axis> axisList = new List<Axis>();
+							foreach (XmlNode key in keyList) {
+								Axis axis = (Axis)System.Enum.Parse(typeof(Axis), key.Attributes["id"].Value, true);
+								axisList.Add(axis);
+							}
+							AxisActions.Add(action.Attributes["name"].Value, axisList);
+						}
+						break;
+					case AXIS_KEYS_ACTIONS_NODE_TYPE:
+						actionList = actions.SelectNodes("./action");
+						foreach (XmlNode action in actionList) {
+							keyList = action.SelectNodes("./key");
+							List<AxisKeys> axisList = new List<AxisKeys>();
+							foreach (XmlNode key in keyList) {
+								AxisKeys axisKey = new AxisKeys();
+								axisKey.Positive = (KeyCode)System.Enum.Parse(typeof(KeyCode), key.SelectSingleNode("./positive").Attributes["id"].Value);
+								axisKey.Negative = (KeyCode)System.Enum.Parse(typeof(KeyCode), key.SelectSingleNode("./negative").Attributes["id"].Value);
+								axisList.Add(axisKey);
+							}
+							AxisKeysActions.Add(action.Attributes["name"].Value, axisList);
+						}
+						break;
+					case BUTTON_ACTIONS_NODE_TYPE:
+						actionList = actions.SelectNodes("./action");
+						foreach (XmlNode action in actionList) {
+							keyList = action.SelectNodes("./key");
+							List<KeyCode> keyCodeList = new List<KeyCode>();
+							foreach (XmlNode key in keyList) {
+								KeyCode keyCode = (KeyCode)System.Enum.Parse(typeof(KeyCode), key.Attributes["id"].Value, true);
+								keyCodeList.Add(keyCode);
+							}
+							ButtonActions.Add(action.Attributes["name"].Value, keyCodeList);
+						}
+						break;
+					}
+				}
+				
+				return true;
+			} catch (System.Exception error) {
+				Debug.LogError(error);
+				return false;
+			}
+		}
+		
+		/// <summary>
+		/// Clear this instance.
+		/// </summary>
+		public void Clear() {
+			AxisActions.Clear();
+			AxisKeysActions.Clear();
+			ButtonActions.Clear();
+		}
+		
+		/// <summary>
+		/// Clears from PlayerPrefs.
+		/// </summary>
+		/// <param name='savePlayerPrefs'>
+		/// If set to <c>true</c>, calls PlayerPrefs.Save();
+		/// </param>
+		public void ClearFromPlayerPrefs(bool savePlayerPrefs = false) {
+			PlayerPrefs.DeleteKey(PLAYER_PREFS_PROFILE_SAVE_PREFIX + id);
+			if (savePlayerPrefs) PlayerPrefs.Save();
+		}
+		
+		/// <summary>
+		/// Sets the axis actions in XML document.
+		/// </summary>
+		/// <returns>
+		/// The axis actions in XML document.
+		/// </returns>
+		/// <param name='document'>
+		/// Document.
+		/// </param>
+		private XmlElement SetAxisActionsInXMLDocument(XmlDocument document) {
+			XmlElement axisActionsNode = document.CreateElement("actions");
+			axisActionsNode.SetAttribute("type", "AxisActions");
+			
+			Dictionary<string, List<Axis>>.Enumerator actionsEnumerator = AxisActions.GetEnumerator();
+			while(actionsEnumerator.MoveNext()) {
+				if (actionsEnumerator.Current.Value.Count > 0) {
+					
+					XmlElement actionNode = document.CreateElement("action");
+					actionNode.SetAttribute("name", actionsEnumerator.Current.Key);
+					
+					List<Axis>.Enumerator actionEnumerator = actionsEnumerator.Current.Value.GetEnumerator();
+					while(actionEnumerator.MoveNext()) {
+						XmlElement keyNode = document.CreateElement("key");
+						keyNode.SetAttribute("id", actionEnumerator.Current.ToString());
+						actionNode.AppendChild(keyNode);
+					}
+					
+					axisActionsNode.AppendChild(actionNode);
+				} else {
+					continue;
+				}
+			}
+			
+			return axisActionsNode;
+		}
+		
+		/// <summary>
+		/// Sets the axis keys actions in XML document.
+		/// </summary>
+		/// <returns>
+		/// The axis keys actions in XML document.
+		/// </returns>
+		/// <param name='document'>
+		/// Document.
+		/// </param>
+		private XmlElement SetAxisKeysActionsInXMLDocument(XmlDocument document) {
+			XmlElement axisActionsNode = document.CreateElement("actions");
+			axisActionsNode.SetAttribute("type", "AxisKeysActions");
+			
+			Dictionary<string, List<AxisKeys>>.Enumerator actionsEnumerator = AxisKeysActions.GetEnumerator();
+			while(actionsEnumerator.MoveNext()) {
+				if (actionsEnumerator.Current.Value.Count > 0) {
+					
+					XmlElement actionNode = document.CreateElement("action");
+					actionNode.SetAttribute("name", actionsEnumerator.Current.Key);
+					
+					List<AxisKeys>.Enumerator actionEnumerator = actionsEnumerator.Current.Value.GetEnumerator();
+					while(actionEnumerator.MoveNext()) {
+						XmlElement keyNode = document.CreateElement("key");
+						XmlElement positiveNode = document.CreateElement("positive");
+						XmlElement negativeNode = document.CreateElement("negative");
+						positiveNode.SetAttribute("id", actionEnumerator.Current.Positive.ToString());
+						negativeNode.SetAttribute("id", actionEnumerator.Current.Negative.ToString());
+						keyNode.AppendChild(positiveNode);
+						keyNode.AppendChild(negativeNode);
+						actionNode.AppendChild(keyNode);
+					}
+					
+					axisActionsNode.AppendChild(actionNode);
+				} else {
+					continue;
+				}
+			}
+			return axisActionsNode;
+		}
+		
+		/// <summary>
+		/// Sets the button actions in XML document.
+		/// </summary>
+		/// <returns>
+		/// The button actions in XML document.
+		/// </returns>
+		/// <param name='document'>
+		/// Document.
+		/// </param>
+		private XmlElement SetButtonActionsInXMLDocument(XmlDocument document) {
+			XmlElement axisActionsNode = document.CreateElement("actions");
+			axisActionsNode.SetAttribute("type", "ButtonActions");
+			
+			Dictionary<string, List<KeyCode>>.Enumerator actionsEnumerator = ButtonActions.GetEnumerator();
+			while(actionsEnumerator.MoveNext()) {
+				if (actionsEnumerator.Current.Value.Count > 0) {
+					
+					XmlElement actionNode = document.CreateElement("action");
+					actionNode.SetAttribute("name", actionsEnumerator.Current.Key);
+					
+					List<KeyCode>.Enumerator actionEnumerator = actionsEnumerator.Current.Value.GetEnumerator();
+					while(actionEnumerator.MoveNext()) {
+						XmlElement keyNode = document.CreateElement("key");
+						keyNode.SetAttribute("id", actionEnumerator.Current.ToString());
+						actionNode.AppendChild(keyNode);
+					}
+					
+					axisActionsNode.AppendChild(actionNode);
+				} else {
+					continue;
+				}
+			}
+			
+			return axisActionsNode;
+		}
 	}
 }
