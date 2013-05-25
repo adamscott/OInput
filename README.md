@@ -3,6 +3,11 @@ OInput for Unity
 
 Intended to free the developer from the input limitations of Unity.
 
+What is it?
+----------------
+
+Originally meant to be called OpenInput, it was quickly renamed OInput for the sake of usability.
+
 
 How to install?
 ----------------
