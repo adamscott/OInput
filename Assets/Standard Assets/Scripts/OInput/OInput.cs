@@ -1672,7 +1672,7 @@ static public class OInput {
 #if UNITY_STANDALONE_OSX || UNITY_DASHBOARD_WIDGET
 				SetAxisOSX(action, axis);
 #elif UNITY_STANDALONE_WIN
-				SetAxisWin(action, axis);
+				SetAxisWindows(action, axis);
 #else
 				if (Application.platform.ToString().Contains("OSX")) {
 					SetAxisOSX(action, axis);
@@ -1751,7 +1751,7 @@ static public class OInput {
 #if UNITY_STANDALONE_OSX || UNITY_DASHBOARD_WIDGET
 				SetButtonOSX(action, button);
 #elif UNITY_STANDALONE_WIN
-				SetButtonWin(action, button);
+				SetButtonWindows(action, button);
 #else
 				if (Application.platform.ToString().Contains("OSX")) {
 					SetButtonOSX(action, button);
