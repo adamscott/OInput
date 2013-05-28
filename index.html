@@ -7,9 +7,7 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
@@ -17,33 +15,55 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1><img src="https://raw.github.com/adamscott/Unity-OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput for Unity3d" /></h1>
-        <p>One script to ease input issues with Unity's built-in `Input` class.</p>
-        <p class="view"><a href="https://github.com/adamscott/Unity-OInput">View the Project on GitHub <small>adamscott/Unity-OInput</small></a></p>
+        <h1>OInput</h1>
+        <p>One script to ease input issues with Unity's built-in Input class.</p>
+
+        <p class="view"><a href="https://github.com/adamscott/OInput">View the Project on GitHub <small>adamscott/OInput</small></a></p>
+
+
         <ul>
-          <li><a href="https://github.com/adamscott/Unity-OInput/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/adamscott/Unity-OInput/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/adamscott/Unity-OInput">View On <strong>GitHub</strong></a></li>
+          <li><a href="https://github.com/adamscott/OInput/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/adamscott/OInput/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/adamscott/OInput">View On <strong>GitHub</strong></a></li>
         </ul>
       </header>
       <section>
-        <h2>How to use?</h2>
+        <h2>Quick start</h2>
+
+<h3>C#</h3>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"a"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Fireball"</span><span class="p">,</span> <span class="s">"left ctrl"</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span> <span class="p">*</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span>
-        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">),</span>
-        <span class="m">0</span><span class="p">,</span>
-        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">));</span>
-
     <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">))</span> <span class="p">{</span>
-        <span class="n">rigidbody</span><span class="p">.</span><span class="n">AddForce</span><span class="p">(</span><span class="n">Vector3</span><span class="p">.</span><span class="n">up</span> <span class="p">*</span> <span class="n">speed</span><span class="p">,</span> <span class="n">ForceMode</span><span class="p">.</span><span class="n">Impulse</span><span class="p">);</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"The plumber jumps."</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetButton</span><span class="p">(</span><span class="s">"Fireball"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"The plumber throws a fireball."</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Unity Script</h3>
+
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">Start</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="nx">OInput</span><span class="p">.</span><span class="nx">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">SetButton</span><span class="p">(</span><span class="s2">"Jump"</span><span class="p">,</span> <span class="s2">"space"</span><span class="p">)</span>
+        <span class="p">.</span><span class="nx">SetButton</span><span class="p">(</span><span class="s2">"Fireball"</span><span class="p">,</span> <span class="s2">"left ctrl"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">Update</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">OInput</span><span class="p">.</span><span class="nx">GetDefaultProfile</span><span class="p">().</span><span class="nx">GetButton</span><span class="p">(</span><span class="s2">"Jump"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">Debug</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="s2">"The plumber jumps."</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">OInput</span><span class="p">.</span><span class="nx">GetDefaultProfile</span><span class="p">().</span><span class="nx">GetButton</span><span class="p">(</span><span class="s2">"Fireball"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nx">Debug</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="s2">"The plumber throws a fireball."</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -52,35 +72,153 @@
 
 <h3>Runtime actions</h3>
 
-<p><code>OInput</code> class lets you set actions in your own code; no longer tied-up to axes setup in the Input Manager in the Unity editor.</p>
+<p><code>OInput</code> class lets you set actions in your own code; no longer tied-up to axes setup in the project settings.</p>
 
-<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+<div class="highlight"><pre><span class="k">public</span> <span class="n">Transform</span> <span class="n">neck</span><span class="p">;</span>
+
+<span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="s">"joystick 1 axis 2"</span><span class="p">);</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"StretchingNeck"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">);</span>
 <span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">neck</span><span class="p">.</span><span class="n">Rotate</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"StretchingNeck"</span><span class="p">)</span> <span class="p">*</span> <span class="m">90</span> <span class="cm">/* degrees */</span><span class="p">,</span> <span class="m">0</span><span class="p">);</span>
+<span class="p">}</span>
+
+</pre></div>
+
+<h3>Accepts both string parameters and built-in ones</h3>
+
+<div class="highlight"><pre><span class="c1">// These lines ...</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">);</span>
+<span class="c1">// work as well as ...</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
 </pre></div>
 
 <h3>Profiles</h3>
 
-<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Player1"</span><span class="p">).</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
-    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Player2"</span><span class="p">).</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Z</span><span class="p">);</span>
+<h4>Multiple profiles</h4>
+
+<p>Setting up multiple ways to control a character is easy with the OInput's profiles.</p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Sets the "Goofy" profile.</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Goofy"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"UltraMegaFlip"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
+
+    <span class="c1">// Sets the "Regular" profile.</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Regular"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"UltraMegaFlip"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">LeftControl</span><span class="p">);</span>
+
+    <span class="c1">// Let's say the user chooses the "Goofy" profile.</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Goofy"</span><span class="p">).</span><span class="n">SetAsDefault</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// The boarder will shout when the player releases the space key.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetButtonUp</span><span class="p">(</span><span class="s">"UltraMegaFlip"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"Yeeeaaaaahhhhhhhh!"</span><span class="p">);</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
-<h3>Controller support</h3>
+<h4>Profile persistence</h4>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Checks if the profile has saved data in the preferences (PlayerPrefs)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">hasSavedData</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">)</span>
+            <span class="p">.</span><span class="n">Save</span><span class="p">();</span> <span class="c1">// Saves through PlayerPrefs settings</span>
+
+        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+            <span class="p">.</span><span class="n">Clear</span><span class="p">()</span> <span class="c1">// Clear() method clears all actions from a profile</span>
+            <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"NonImportantAxis"</span><span class="p">,</span> <span class="s">"joystick 3 axis 10"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Loads the saved profile from memory</span>
     <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">Load</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// As the default profile is loaded to it's previous state, </span>
+    <span class="c1">// joystick 1 will be able to control the translation</span>
+    <span class="kt">float</span> <span class="n">translation</span> <span class="p">=</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">)</span> <span class="p">*</span> <span class="m">10.0f</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Controllers</h3>
+
+<h4>Controller support</h4>
+
+<p>Adding controller buttons and axis to actions has never been simpler. </p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Setting up Player 1</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"SpeedyHedgehog"</span><span class="p">)</span>
         <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Joystick1Button0</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Run"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
+
+    <span class="c1">// Setting up Player 2</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"FoxWith2Tails"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Joystick2Button0</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Run"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick2Axis1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h4>Controller wrappers</h4>
+
+<p>The wrappers can help setting up profiles for controller input without worring about axis and button numbers. Why? Because it preprocesses the input to be uniform whatever the platform the game runs.</p>
+
+<p>As there is no consistency across controllers (<a href="http://wiki.unity3d.com/index.php?title=Xbox360Controller">not even for the same controller across different platforms</a>), wrappers can be used to setup a project fast.</p>
+
+<table>
+<tr>
+<th>Controllers wrappers</th>
+<th>Code</th>
+<th>Platforms</th>
+</tr>
+<tr>
+<td>Xbox 360 controller</td>
+<td><code>OInput.Xbox</code></td>
+<td>Windows, Mac</td>
+</tr>
+<tr>
+<td>Ouya controller</td>
+<td><code>OInput.Ouya</code></td>
+<td>Android</td>
+</tr>
+</table><div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">GetWrapper</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">SetJoystick</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">Joystick</span><span class="p">.</span><span class="n">Joystick1</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickX</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickY</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimHorizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickX</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimVertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickY</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">A</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Duck"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">B</span><span class="p">);</span>
+
+    <span class="c1">// Wrappers doesn't change the ability to call a profile which has been wrapped</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Duck"</span><span class="p">,</span> <span class="s">"left ctrl"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// When the A button on the controller or the spacebar is pressed...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="c1">// The character jumps.</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"Jumpin'!"</span><span class="p">);</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 
 <h3>Button and axis detection</h3>
 
-<p>Always wanted to implement a prompt asking a user to press a key?</p>
+<p>Implementing a prompt asking a user to press a key is quite easy with OInput.</p>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectAxis</span><span class="p">()</span> <span class="p">!=</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">None</span><span class="p">)</span> <span class="p">{</span>
@@ -101,51 +239,52 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3>Controller wrappers</h3>
-
-<p>The wrappers can help setting up profiles for controller input without worring about axis and button numbers. As there is no consistency across controllers (<a href="http://wiki.unity3d.com/index.php?title=Xbox360Controller">not even for the same controller across different platforms</a>), wrappers can be used to setup a project fast.</p>
-
-<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">GetWrapper</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">())</span>
-        <span class="p">.</span><span class="n">SetJoystick</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">Joystick</span><span class="p">.</span><span class="n">Joystick1</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickX</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickY</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimHorizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickX</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimVertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickY</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">A</span><span class="p">)</span>
-        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Duck"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">B</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-<h3>Accepts both <code>string</code> parameters and built-in ones</h3>
-
-<div class="highlight"><pre><span class="c1">// These lines ...</span>
-<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
-<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">);</span>
-<span class="c1">// work as well as ...</span>
-<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
-<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
-</pre></div>
-
-<h2>What OInput stands for?</h2>
-
-<p>Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for usability.</p>
-
 <h2>How to install?</h2>
 
 <ul>
+<li>
+<a href="https://github.com/adamscott/Unity-OInput/archive/master.zip">Download</a> or clone the project.</li>
 <li>Put the <code>OInput</code> folder in the <code>Assets/Standard Assets/Scripts</code> folder of your project. If the folder doesn't exists, create it.</li>
-<li>Replace the <code>InputManager.asset</code> file in the <code>ProjectSettings</code> of your project by the one of OInput.</li>
+<li>Replace the <code>InputManager.asset</code> file in the <code>ProjectSettings</code> of your project by the one you downloaded.</li>
 </ul><h2>Issues</h2>
 
+<p>Don't forget you can seek and fill issues in the project's <a href="https://github.com/adamscott/Unity-OInput/issues">issue tracker</a>.</p>
+
+<h3>Notable issues</h3>
+
 <ul>
+<li>OInput is <strong>not compatible</strong> with the <a href="http://docs.unity3d.com/Documentation/Manual/Input.html">Input Manager</a> window.</li>
 <li>
 <code>OInput.Profile.GetAxis()</code> and <code>OInput.Profile.GetRawAxis()</code> return the same values, as keyboard smoothing has not been implemented yet.</li>
 <li>
 <code>OInput.Ouya</code> wrapper is not functionnal yet.</li>
 <li>
 <code>OInput.Xbox</code> wrapper works only on Mac and Windows.</li>
-</ul><h2>Notes</h2>
+</ul><h2>Planned features</h2>
+
+<ul>
+<li>Complete Ouya controller support.</li>
+<li>Keyboard axis smoothing.</li>
+<li>Detect input overlap between profiles.</li>
+<li>Set a joystick axis input as a button.</li>
+</ul><h2>Version history</h2>
+
+<table>
+<tr>
+<th>Version</th>
+<th>Release date</th>
+<th>Release notes</th>
+</tr>
+<tr>
+<td>v0.1</td>
+<td>June 1st 2013</td>
+<td>N/A</td>
+</tr>
+</table><h2>What does OInput stands for?</h2>
+
+<p>Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for the sake of usability.</p>
+
+<h2>Notes</h2>
 
 <ul>
 <li>
@@ -155,14 +294,15 @@
 <a href="https://twitter.com/tgraupmann" title="@tgraupmann on Twitter">Tim Graupmann</a> and the 
 <a href="https://devs.ouya.tv/developers">Ouya Dev Team</a>. Visit the project's website: <code>https://github.com/ouya/ouya-unity-plugin</code>
 </li>
+<li>OInput is released under <a href="https://raw.github.com/adamscott/OInput/master/LICENSE.txt">Apache License 2.0</a>.</li>
 </ul>
       </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/adamscott">adamscott</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
     </div>
-    <footer>
-      <p>Project maintained by <a href="https://github.com/adamscott">adamscott</a></p>
-      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
-    </footer>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    <script src="javascripts/scale.fix.js"></script>
               <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
