@@ -761,6 +761,7 @@ static public class OInput {
 	
 	static private KeyCode DetectKeyType(string type) {
 		foreach (KeyCode key in System.Enum.GetValues(typeof(KeyCode))) {
+			// If key corresponds to JoystickButton#, it will correspond to a Joystick#Button#.
 			switch (key) {
 			case KeyCode.JoystickButton0:
 			case KeyCode.JoystickButton1:
