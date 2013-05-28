@@ -128,7 +128,7 @@ static public class OInput {
 		
 	const string DEFAULT_PROFILE_ID = "default";
 	
-	static protected OInputProfile _defaultProfile;
+	static internal OInputProfile _defaultProfile;
 	
 	static Dictionary<string, OInputProfile> _profiles = new Dictionary<string, OInputProfile>();
 	
