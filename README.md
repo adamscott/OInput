@@ -29,21 +29,42 @@ void Update() {
 Features
 ----------------
 ### Runtime actions
-`OInput` class lets you set actions in your own code; no longer tied-up to axes setup in the Input Manager in the Unity editor.
+`OInput` class lets you set actions in your own code; no longer tied-up to axes setup in the project settings.
 
 ```csharp
+Transform neck;
+
 void Start() {
 	OInput.GetDefaultProfile()
-		.SetAxis("Horizontal", "joystick 1 axis 1")
-		.SetAxis("Vertical", "joystick 1 axis 2");
+		.SetAxis("StretchingNeck", "joystick 1 axis 1");
 }
+
+void Update() {
+	neck.Rotate(0, OInput.GetDefaultProfile().GetAxis("StretchingNeck") * 180 /* degrees */, 0);
+}
+
 ```
 
 ### Profiles
 ```csharp
-void Start() {
-	OInput.GetProfile("Player1").SetButton("Jump", KeyCode.Space);
-	OInput.GetProfile("Player2").SetButton("Jump", KeyCode.Z);
+void Start () {
+	// Sets the "Goofy" profile.
+	OInput.GetProfile("Goofy")
+		.SetButton("UltraMegaFlip", KeyCode.Space);
+	
+	// Sets the "Regular" profile.
+	OInput.GetProfile("Regular")
+		.SetButton("UltraMegaFlip", KeyCode.LeftControl);
+	
+	// Let's say the user chooses the "Goofy" profile.
+	OInput.GetProfile("Goofy").SetAsDefault();
+}
+
+void Update () {
+	// The boarder will shout when the player releases the space key.
+	if (OInput.GetDefaultProfile().GetButtonUp("UltraMegaFlip")) {
+		Debug.Log("Yeeeaaaaahhhhhhhh!");
+	}
 }
 ```
 
@@ -142,6 +163,7 @@ How to install?
 
 Issues
 ----------------
+- OInput is **not compatible** with the [Input Manager](http://docs.unity3d.com/Documentation/Manual/Input.html) window.
 - `OInput.Profile.GetAxis()` and `OInput.Profile.GetRawAxis()` return the same values, as keyboard smoothing has not been implemented yet.
 - `OInput.Ouya` wrapper is not functionnal yet.
 - `OInput.Xbox` wrapper works only on Mac and Windows.
