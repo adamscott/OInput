@@ -3,6 +3,9 @@
 
 One script to ease input issues with Unity's built-in `Input` class.
 
+Quick start
+----------------
+
 ### C&#35;
 ```csharp
 void Start() {
