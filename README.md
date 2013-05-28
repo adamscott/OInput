@@ -223,7 +223,7 @@ void Update() {
 	// Will log -1 when A key is pressed, 1 when D key is pressed, 0 when both or none of those is pressed.
 	
 	Debug.Log("AxisMix: " + OInput.GetDefaultProfile().GetAxis("AxisMix"));
-	// Will log the sum of Joystick1Axis3 (mapped to -1 to 0) and Joystick1Axis4 (mapped to 0 to 1)
+	// Will log the sum of Joystick1Axis3 (mapped to 0 to -1) and Joystick1Axis4 (mapped to 0 to 1)
 }
 ```
 
