@@ -3,6 +3,7 @@
 
 One script to ease input issues with Unity's built-in `Input` class.
 
+### C&#35;
 ```csharp
 void Start() {
 	OInput.GetDefaultProfile()
@@ -18,6 +19,25 @@ void Update() {
 	if (OInput.GetDefaultProfile().GetButton("Fireball")) {
 		Debug.Log("The plumber throws a fireball.");
 	}
+}
+```
+
+### Unity Script
+```javascript
+function Start () {
+	OInput.GetDefaultProfile()
+		.SetButton("Jump", "space")
+        .SetButton("Fireball", "left ctrl");
+}
+
+function Update () {
+	if (OInput.GetDefaultProfile().GetButton("Jump")) {
+        Debug.Log("The plumber jumps.");
+    }
+	
+    if (OInput.GetDefaultProfile().GetButton("Fireball")) {
+        Debug.Log("The plumber throws a fireball.");
+    }
 }
 ```
 
