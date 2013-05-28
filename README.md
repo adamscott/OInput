@@ -203,7 +203,7 @@ How to install?
 ----------------
 - [Download](https://github.com/adamscott/Unity-OInput/archive/master.zip) or clone the project.
 - Put the `OInput` folder in the `Assets/Standard Assets/Scripts` folder of your project. If the folder doesn't exists, create it.
-- Replace the `InputManager.asset` file in the `ProjectSettings` of your project by the one you downloaded.
+- Replace the `InputManager.asset` file in the `ProjectSettings` folder by the one you downloaded.
 
 Issues
 ----------------
