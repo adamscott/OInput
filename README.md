@@ -40,7 +40,7 @@ void Update() {
 
 ```
 
-### Accepts both `string` parameters and built-in ones
+### Accepts both string parameters and built-in ones
 ```csharp
 // These lines ...
 OInput.GetDefaultProfile().SetButton("Jump", "space");
@@ -51,7 +51,8 @@ OInput.GetDefaultProfile().SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
 ```
 
 ### Profiles
-
+#### Multiple profiles
+Setting up multiple ways to control a character is easy with the OInput's profiles.
 ```csharp
 void Start () {
 	// Sets the "Goofy" profile.
@@ -73,6 +74,9 @@ void Update () {
 	}
 }
 ```
+
+#### Profile persistence
+The user 
 
 ### Controller support
 Adding controller buttons and axis to actions has never been simpler. 
@@ -150,7 +154,7 @@ void Update() {
 
 What does OInput stands for?
 ----------------
-Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for usability.
+Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for the sake of usability.
 
 How to install?
 ----------------
@@ -160,13 +164,20 @@ How to install?
 
 Issues
 ----------------
-Don't forget you can fill issues in the [issue tracker](https://github.com/adamscott/Unity-OInput/issues).
+Don't forget you can seek and fill issues in the project's [issue tracker](https://github.com/adamscott/Unity-OInput/issues).
 
 ### Notable issues
 - OInput is **not compatible** with the [Input Manager](http://docs.unity3d.com/Documentation/Manual/Input.html) window.
 - `OInput.Profile.GetAxis()` and `OInput.Profile.GetRawAxis()` return the same values, as keyboard smoothing has not been implemented yet.
 - `OInput.Ouya` wrapper is not functionnal yet.
 - `OInput.Xbox` wrapper works only on Mac and Windows.
+
+Planned features
+----------------
+- Complete Ouya controller support.
+- Keyboard axis smoothing.
+- Detect input overlap between profiles.
+- Set a joystick axis input as a button.
 
 Version history
 ----------------
