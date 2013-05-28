@@ -52,6 +52,18 @@ void Update() {
 	if (OInput.DetectAxis() != OInput.Axis.None) {
 		Debug.Log(OInput.DetectAxis() + " has been activated.");
 	}
+	
+	if (OInput.DetectKeyDown() != KeyCode.None) {
+		Debug.Log(OInput.DetectKeyDown() + " has been just pressed.");
+	}
+	
+	if (OInput.DetectKey() != KeyCode.None) {
+		Debug.Log(OInput.DetectKey() + " has been pressed.");
+	}
+	
+	if (OInput.DetectKeyUp() != KeyCode.None) {
+		Debug.Log(OInput.DetectKeyUp() + " has been released.");
+	}
 }
 ```
 
