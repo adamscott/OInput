@@ -86,7 +86,14 @@ void Update() {
 ```
 
 ### Controller wrappers
-The wrappers can help setting up profiles for controller input without worring about axis and button numbers. As there is no consistency across controllers ([not even for the same controller across different platforms](http://wiki.unity3d.com/index.php?title=Xbox360Controller)), wrappers can be used to setup a project fast.
+The wrappers can help setting up profiles for controller input without worring about axis and button numbers. Why? Because it preprocesses the input to be uniform whatever the platform the game runs.
+
+As there is no consistency across controllers ([not even for the same controller across different platforms](http://wiki.unity3d.com/index.php?title=Xbox360Controller)), wrappers can be used to setup a project fast.
+
+| Controllers wrappers | Code          | Platforms    |
+| -------------------- | ------------- | ------------ |
+| Xbox 360 controller  | `OInput.Xbox` | Windows, Mac |
+| Ouya controller      | `OInput.Ouya` | Android      |
 
 ```csharp
 void Start() {
@@ -98,6 +105,19 @@ void Start() {
 		.SetAxis("AimVertical", OInput.Xbox.ControllerAxis.RightStickY)
 		.SetButton("Jump", OInput.Xbox.ControllerButton.A)
 		.SetButton("Duck", OInput.Xbox.ControllerButton.B);
+	
+	// Wrappers doesn't change the ability to call a profile which has been wrapped
+	OInput.GetDefaultProfile()
+		.SetButton("Jump", "space")
+		.SetAxis("Duck", "left ctrl");
+}
+
+void Update() {
+	// When the A button on the controller or the spacebar is pressed...
+	if (OInput.GetDefaultProfile().GetButton("Jump")) {
+		// The character jumps.
+		Debug.Log("Jumpin'!");
+	}
 }
 ```
 
