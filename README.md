@@ -26,6 +26,16 @@ void Update() {
 }
 ```
 
+Features
+----------------
+### Profiles
+
+### Controller support
+
+### Controller wrappers
+
+### Accepts both `string` parameters and built-in ones
+
 How to install?
 ----------------
 - Put the "OInput.cs" file anywhere in the "Assets" folder of your project.
