@@ -31,32 +31,55 @@
         <hr>
 
         <section id="main_content">
-          <h3>Welcome to GitHub Pages.</h3>
+          <p>One script to ease input issues with Unity's built-in InputManager.</p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<h2>How to use?</h2>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"a"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="s">"w"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">transform</span><span class="p">.</span><span class="n">position</span> <span class="p">+=</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span> <span class="p">*</span> <span class="k">new</span> <span class="n">Vector3</span><span class="p">(</span>
+        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">),</span>
+        <span class="m">0</span><span class="p">,</span>
+        <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">));</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">))</span> <span class="p">{</span>
+        <span class="n">rigidbody</span><span class="p">.</span><span class="n">AddForce</span><span class="p">(</span><span class="n">Vector3</span><span class="p">.</span><span class="n">up</span> <span class="p">*</span> <span class="n">speed</span><span class="p">,</span> <span class="n">ForceMode</span><span class="p">.</span><span class="n">Impulse</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>How to install?</h2>
+
+<ul>
+<li>Put the "OInput.cs" file anywhere in the "Assets" folder of your project.</li>
+<li>Replace the "InputManager.asset" file in the "ProjectSettings" of your project by the one of OInput.</li>
+</ul><h2>Issues</h2>
+
+<ul>
+<li>
+<code>OInput.Profile.GetAxis()</code> and <code>OInput.Profile.GetRawAxis()</code> return the same values, as keyboard smoothing has not been implemented yet.</li>
+<li>
+<code>OInput.Ouya</code> (Ouya controller) is not functionnal yet.</li>
+</ul><h2>Notes</h2>
+
+<ul>
+<li>
+<p>"InputManager.asset" as been borrowed from the 
+<a href="https://github.com/ouya/ouya-unity-plugin">ouya-unity-plugin project</a> for (the awesome) 
+<a href="http://ouya.tv/" title="I want one!">Ouya</a>. Thanks to 
+<a href="https://twitter.com/tgraupmann" title="@tgraupmann on Twitter">Tim Graupmann</a> and the 
+<a href="https://devs.ouya.tv/developers">Ouya Dev Team</a>.</p>
+
+<pre><code>https://github.com/ouya/ouya-unity-plugin
 </code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+</li>
+</ul>
         </section>
 
         <footer>
