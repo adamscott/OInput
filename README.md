@@ -3,25 +3,20 @@
 
 One script to ease input issues with Unity's built-in `Input` class.
 
-How to use?
-----------------
-
 ```csharp
 void Start() {
 	OInput.GetDefaultProfile()
-		.SetAxis("Horizontal", "a", "d")
-		.SetAxis("Vertical", "w", "d")
-		.SetButton("Jump", "space");
+		.SetButton("Jump", "space")
+		.SetButton("Fireball", "left ctrl");
 }
 
 void Update() {
-	transform.position += Time.deltaTime * new Vector3(
-		OInput.GetDefaultProfile().GetAxis("Horizontal"),
-		0,
-		OInput.GetDefaultProfile().GetAxis("Vertical"));
-        
 	if (OInput.GetDefaultProfile().GetButton("Jump")) {
-		rigidbody.AddForce(Vector3.up * speed, ForceMode.Impulse);
+		Debug.Log("The plumber jumps.");
+	}
+	
+	if (OInput.GetDefaultProfile().GetButton("Fireball")) {
+		Debug.Log("The plumber throws a fireball.");
 	}
 }
 ```
