@@ -35,7 +35,7 @@ void Start() {
 }
 
 void Update() {
-	neck.Rotate(0, OInput.GetDefaultProfile().GetAxis("StretchingNeck") * 180 /* degrees */, 0);
+	neck.Rotate(0, OInput.GetDefaultProfile().GetAxis("StretchingNeck") * 90 /* degrees */, 0);
 }
 
 ```
