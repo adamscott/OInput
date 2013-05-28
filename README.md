@@ -68,14 +68,14 @@ Adding controller buttons and axis to actions has never been simpler.
 ```csharp
 void Start() {
 	// Setting up Player 1
-	OInput.GetProfile("JohnIsThaBest")
+	OInput.GetProfile("SpeedyHedgehog")
 		.SetButton("Jump", KeyCode.Joystick1Button0)
-		.SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
+		.SetAxis("Run", OInput.Axis.Joystick1Axis1);
 		
 	// Setting up Player 2
-	OInput.GetProfile("Player2Owns")
+	OInput.GetProfile("FoxWith2Tails")
 		.SetButton("Jump", KeyCode.Joystick2Button0)
-		.SetAxis("Horizontal", OInput.Axis.Joystick2Axis1);
+		.SetAxis("Run", OInput.Axis.Joystick2Axis1);
 }
 ```
 
@@ -153,11 +153,15 @@ Originally intended to be called OpenInput, the project/file has been quickly re
 
 How to install?
 ----------------
+- [Download](https://github.com/adamscott/Unity-OInput/archive/master.zip) or clone the project.
 - Put the `OInput` folder in the `Assets/Standard Assets/Scripts` folder of your project. If the folder doesn't exists, create it.
-- Replace the `InputManager.asset` file in the `ProjectSettings` of your project by the one of OInput.
+- Replace the `InputManager.asset` file in the `ProjectSettings` of your project by the one you downloaded.
 
 Issues
 ----------------
+Don't forget you can fill issues in the [issue tracker](https://github.com/adamscott/Unity-OInput/issues).
+
+### Notable issues
 - OInput is **not compatible** with the [Input Manager](http://docs.unity3d.com/Documentation/Manual/Input.html) window.
 - `OInput.Profile.GetAxis()` and `OInput.Profile.GetRawAxis()` return the same values, as keyboard smoothing has not been implemented yet.
 - `OInput.Ouya` wrapper is not functionnal yet.
