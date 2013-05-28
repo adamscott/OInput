@@ -239,3 +239,4 @@ Notes
 [Ouya](http://ouya.tv/ "I want one!"). Thanks to 
 [Tim Graupmann](https://twitter.com/tgraupmann "@tgraupmann on Twitter") and the 
 [Ouya Dev Team](https://devs.ouya.tv/developers). Visit the project's website: `https://github.com/ouya/ouya-unity-plugin`
+- OInput is released under [Apache License 2.0](https://raw.github.com/adamscott/OInput/master/LICENSE.txt).
