@@ -15,8 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <!--<h1>OInput</h1>-->
-        <h1><img src="https://raw.github.com/adamscott/OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput" /></h1>
+        <h1>OInput</h1>
         <p>One script to ease input issues with Unity's built-in Input class.</p>
 
         <p class="view"><a href="https://github.com/adamscott/OInput">View the Project on GitHub <small>adamscott/OInput</small></a></p>
@@ -29,9 +28,11 @@
         </ul>
       </header>
       <section>
-        <h2>Quick start</h2>
+        <h2>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick start</h2>
 
-<h3>C#</h3>
+<h3>
+<a name="c" class="anchor" href="#c"><span class="octicon octicon-link"></span></a>C#</h3>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
@@ -50,7 +51,8 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3>Unity Script</h3>
+<h3>
+<a name="unity-script" class="anchor" href="#unity-script"><span class="octicon octicon-link"></span></a>Unity Script</h3>
 
 <div class="highlight"><pre><span class="kd">function</span> <span class="nx">Start</span> <span class="p">()</span> <span class="p">{</span>
     <span class="nx">OInput</span><span class="p">.</span><span class="nx">GetDefaultProfile</span><span class="p">()</span>
@@ -69,9 +71,11 @@
 <span class="p">}</span>
 </pre></div>
 
-<h2>Features</h2>
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
 
-<h3>Runtime actions</h3>
+<h3>
+<a name="runtime-actions" class="anchor" href="#runtime-actions"><span class="octicon octicon-link"></span></a>Runtime actions</h3>
 
 <p><code>OInput</code> class lets you set actions in your own code; no longer tied-up to axes setup in the project settings.</p>
 
@@ -88,7 +92,8 @@
 
 </pre></div>
 
-<h3>Accepts both string parameters and built-in ones</h3>
+<h3>
+<a name="accepts-both-string-parameters-and-built-in-ones" class="anchor" href="#accepts-both-string-parameters-and-built-in-ones"><span class="octicon octicon-link"></span></a>Accepts both string parameters and built-in ones</h3>
 
 <div class="highlight"><pre><span class="c1">// These lines ...</span>
 <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
@@ -98,9 +103,11 @@
 <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
 </pre></div>
 
-<h3>Profiles</h3>
+<h3>
+<a name="profiles" class="anchor" href="#profiles"><span class="octicon octicon-link"></span></a>Profiles</h3>
 
-<h4>Multiple profiles</h4>
+<h4>
+<a name="multiple-profiles" class="anchor" href="#multiple-profiles"><span class="octicon octicon-link"></span></a>Multiple profiles</h4>
 
 <p>Setting up multiple ways to control a character is easy with the OInput's profiles.</p>
 
@@ -125,7 +132,8 @@
 <span class="p">}</span>
 </pre></div>
 
-<h4>Profile persistence</h4>
+<h4>
+<a name="profile-persistence" class="anchor" href="#profile-persistence"><span class="octicon octicon-link"></span></a>Profile persistence</h4>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
     <span class="c1">// Checks if the profile has saved data in the preferences (PlayerPrefs)</span>
@@ -151,9 +159,11 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3>Controllers</h3>
+<h3>
+<a name="controllers" class="anchor" href="#controllers"><span class="octicon octicon-link"></span></a>Controllers</h3>
 
-<h4>Controller support</h4>
+<h4>
+<a name="controller-support" class="anchor" href="#controller-support"><span class="octicon octicon-link"></span></a>Controller support</h4>
 
 <p>Adding controller buttons and axis to actions has never been simpler. </p>
 
@@ -170,7 +180,8 @@
 <span class="p">}</span>
 </pre></div>
 
-<h4>Controller wrappers</h4>
+<h4>
+<a name="controller-wrappers" class="anchor" href="#controller-wrappers"><span class="octicon octicon-link"></span></a>Controller wrappers</h4>
 
 <p>The wrappers can help setting up profiles for controller input without worring about axis and button numbers. Why? Because it preprocesses the input to be uniform whatever the platform the game runs.</p>
 
@@ -217,7 +228,11 @@
 <span class="p">}</span>
 </pre></div>
 
-<h3>Button and axis detection</h3>
+<h3>
+<a name="buttons-and-axes" class="anchor" href="#buttons-and-axes"><span class="octicon octicon-link"></span></a>Buttons and axes</h3>
+
+<h4>
+<a name="button-and-axis-detection" class="anchor" href="#button-and-axis-detection"><span class="octicon octicon-link"></span></a>Button and axis detection</h4>
 
 <p>Implementing a prompt asking a user to press a key is quite easy with OInput.</p>
 
@@ -240,18 +255,49 @@
 <span class="p">}</span>
 </pre></div>
 
-<h2>How to install?</h2>
+<h4>
+<a name="multiple-ways-to-do-axes" class="anchor" href="#multiple-ways-to-do-axes"><span class="octicon octicon-link"></span></a>Multiple ways to do axes</h4>
+
+<p>Needing a axis output of 0 to 1 instead of the classic -1 to 1? You want to implement a virtual axis by keypresses? Need to mix 2 joystick axes into one?</p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"SimpleAxis"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">)</span> <span class="c1">// the 3rd parameter of SetAxis is false by default</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"RemappedAxis"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis2</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="c1">// the 3rd parameter is for remapping or not</span>
+        <span class="p">.</span><span class="n">SetAxisKeys</span><span class="p">(</span><span class="s">"VirtualAxis"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">A</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">D</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxisMix</span><span class="p">(</span><span class="s">"AxisMix"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis3</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis4</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"SimpleAxis: "</span> <span class="p">+</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"SimpleAxis"</span><span class="p">));</span>
+    <span class="c1">// Will log from -1 to 1</span>
+
+    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"RemappedAxis: "</span> <span class="p">+</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"RemappedAxis"</span><span class="p">));</span>
+    <span class="c1">// Will log from 0 to 1, -1 becomes 0, 0 becomes 0.5 and 1 stays 1.</span>
+
+    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"VirtualAxis: "</span> <span class="p">+</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"VirtualAxis"</span><span class="p">));</span>
+    <span class="c1">// Will log -1 when A key is pressed, 1 when D key is pressed, 0 when both or none of those is pressed.</span>
+
+    <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="s">"AxisMix: "</span> <span class="p">+</span> <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">GetAxis</span><span class="p">(</span><span class="s">"AxisMix"</span><span class="p">));</span>
+    <span class="c1">// Will log the sum of Joystick1Axis3 (mapped to 0 to -1) and Joystick1Axis4 (mapped to 0 to 1)</span>
+<span class="p">}</span>
+</pre></div>
+
+<h2>
+<a name="how-to-install" class="anchor" href="#how-to-install"><span class="octicon octicon-link"></span></a>How to install?</h2>
 
 <ul>
 <li>
 <a href="https://github.com/adamscott/Unity-OInput/archive/master.zip">Download</a> or clone the project.</li>
 <li>Put the <code>OInput</code> folder in the <code>Assets/Standard Assets/Scripts</code> folder of your project. If the folder doesn't exists, create it.</li>
-<li>Replace the <code>InputManager.asset</code> file in the <code>ProjectSettings</code> of your project by the one you downloaded.</li>
-</ul><h2>Issues</h2>
+<li>Replace the <code>InputManager.asset</code> file in the <code>ProjectSettings</code> folder by the one you downloaded.</li>
+</ul><h2>
+<a name="issues" class="anchor" href="#issues"><span class="octicon octicon-link"></span></a>Issues</h2>
 
 <p>Don't forget you can seek and fill issues in the project's <a href="https://github.com/adamscott/Unity-OInput/issues">issue tracker</a>.</p>
 
-<h3>Notable issues</h3>
+<h3>
+<a name="notable-issues" class="anchor" href="#notable-issues"><span class="octicon octicon-link"></span></a>Notable issues</h3>
 
 <ul>
 <li>OInput is <strong>not compatible</strong> with the <a href="http://docs.unity3d.com/Documentation/Manual/Input.html">Input Manager</a> window.</li>
@@ -261,14 +307,16 @@
 <code>OInput.Ouya</code> wrapper is not functionnal yet.</li>
 <li>
 <code>OInput.Xbox</code> wrapper works only on Mac and Windows.</li>
-</ul><h2>Planned features</h2>
+</ul><h2>
+<a name="planned-features" class="anchor" href="#planned-features"><span class="octicon octicon-link"></span></a>Planned features</h2>
 
 <ul>
 <li>Complete Ouya controller support.</li>
 <li>Keyboard axis smoothing.</li>
 <li>Detect input overlap between profiles.</li>
 <li>Set a joystick axis input as a button.</li>
-</ul><h2>Version history</h2>
+</ul><h2>
+<a name="version-history" class="anchor" href="#version-history"><span class="octicon octicon-link"></span></a>Version history</h2>
 
 <table>
 <tr>
@@ -281,11 +329,13 @@
 <td>June 1st 2013</td>
 <td>N/A</td>
 </tr>
-</table><h2>What does OInput stands for?</h2>
+</table><h2>
+<a name="what-does-oinput-stands-for" class="anchor" href="#what-does-oinput-stands-for"><span class="octicon octicon-link"></span></a>What does OInput stands for?</h2>
 
 <p>Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for the sake of usability.</p>
 
-<h2>Notes</h2>
+<h2>
+<a name="notes" class="anchor" href="#notes"><span class="octicon octicon-link"></span></a>Notes</h2>
 
 <ul>
 <li>
