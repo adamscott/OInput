@@ -125,6 +125,13 @@ static public class OInput {
 		Joystick10Axis10,
 		None
 	}
+	
+	public enum Joystick {
+		Joystick1,
+		Joystick2,
+		Joystick3,
+		Joystick4
+	}
 		
 	const string DEFAULT_PROFILE_ID = "default";
 	
@@ -1258,7 +1265,7 @@ static public class OInput {
 			_buttonKeys = null;
 		}
 	}
-    
+	
 	static public class Xbox {
 		public enum ControllerButton {
 			A,
@@ -1283,13 +1290,6 @@ static public class OInput {
 			RightStickY,
 			LT,
 			RT
-		}
-		
-		public enum Joystick {
-			Joystick1,
-			Joystick2,
-			Joystick3,
-			Joystick4
 		}
 		
 		static Dictionary<OInput.Profile, OInput.Xbox.Wrapper> _wrappers = new Dictionary<OInput.Profile, OInput.Xbox.Wrapper>();
@@ -1516,4 +1516,139 @@ static public class OInput {
 #endif
 		}
 	}
+	
+#if UNITY_ANDROID || UNITY_EDITOR
+	static public class Ouya {
+		public enum ControllerButton {
+			O,
+			U,
+			Y,
+			A,
+			Start,
+			Back,
+			LB,
+			RB,
+			LeftStick,
+			RightStick
+		}
+		
+		public enum ControllerAxis {
+			LeftStickX,
+			LeftStickY,
+			DPadX,
+			DPadY,
+			RightStickX,
+			RightStickY,
+			LT,
+			RT
+		}
+		
+		static Dictionary<OInput.Profile, OInput.Ouya.Wrapper> _wrappers = new Dictionary<OInput.Profile, OInput.Ouya.Wrapper>();
+		
+		
+		static public Wrapper GetWrapper(OInput.Profile profile) {
+			Wrapper wrapper;
+			if (!_wrappers.TryGetValue(profile, out wrapper)) {
+				_wrappers.Add(profile, new Wrapper(profile));
+				wrapper = _wrappers[profile];
+			}
+			
+			return wrapper;
+		}
+		
+		public class Wrapper {
+			const string JOYSTICK_1 = "joystick 1 ";
+			const string JOYSTICK_2 = "joystick 2 ";
+			const string JOYSTICK_3 = "joystick 3 ";
+			const string JOYSTICK_4 = "joystick 4 ";
+			
+			OInput.Profile _profile;
+			string joystick;
+			
+			public Wrapper(OInput.Profile profile) {
+				_profile = profile;
+				joystick = JOYSTICK_1;
+			}
+			
+			public Wrapper SetJoystick(Joystick joystick) {
+				switch (joystick) {
+				case Joystick.Joystick1:
+					this.joystick = JOYSTICK_1;
+					break;
+				case Joystick.Joystick2:
+					this.joystick = JOYSTICK_2;
+					break;
+				case Joystick.Joystick3:
+					this.joystick = JOYSTICK_3;
+					break;
+				case Joystick.Joystick4:
+					this.joystick = JOYSTICK_4;
+					break;
+				}
+				
+				return this;
+			}
+			
+			public Wrapper SetAxis(string action, ControllerAxis axis) {
+				switch(axis) {
+				case ControllerAxis.LeftStickX:
+					_profile.SetAxis(action, joystick + "axis 1");
+					break;
+				case ControllerAxis.LeftStickY:
+					_profile.SetAxis(action, joystick + "axis 2");
+					break;
+				case ControllerAxis.RightStickX:
+					_profile.SetAxis(action, joystick + "axis 3");
+					break;
+				case ControllerAxis.RightStickY:
+					_profile.SetAxis(action, joystick + "axis 4");
+					break;
+				case ControllerAxis.DPadX:
+					_profile.SetAxisKeys(action, joystick + "button 10", joystick + "button 11");
+					break;
+				case ControllerAxis.DPadY:
+					_profile.SetAxisKeys(action, joystick + "button 8", joystick + "button 9");
+					break;
+				case ControllerAxis.LT:
+					_profile.SetAxis(action, joystick + "axis 5", true);
+					break;
+				case ControllerAxis.RT:
+					_profile.SetAxis(action, joystick + "axis 6", true);
+					break;
+				}
+				return this;
+			}
+			
+			public Wrapper SetButton(string action, ControllerButton button) {
+				switch (button) {
+				case ControllerButton.O:
+					_profile.SetButton(action, joystick + "button 0");
+					break;
+				case ControllerButton.U:
+					_profile.SetButton(action, joystick + "button 1");
+					break;
+				case ControllerButton.Y:
+					_profile.SetButton(action, joystick + "button 2");
+					break;
+				case ControllerButton.A:
+					_profile.SetButton(action, joystick + "button 3");
+					break;
+				case ControllerButton.LB:
+					_profile.SetButton(action, joystick + "button 4");
+					break;
+				case ControllerButton.RB:
+					_profile.SetButton(action, joystick + "button 5");
+					break;
+				case ControllerButton.LeftStick:
+					_profile.SetButton(action, joystick + "button 6");
+					break;
+				case ControllerButton.RightStick:
+					_profile.SetButton(action, joystick + "button 7");
+					break;
+				}
+				return this;
+			}
+		}
+	}
+#endif
 }
