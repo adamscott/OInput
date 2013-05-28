@@ -1,39 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <title>OInput by adamscott</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <title>OInput by adamscott</title>
   </head>
-
   <body>
-    <div id="container">
-      <div class="inner">
-
-        <header>
-          <h1>OInput</h1>
-          <h2></h2>
-        </header>
-
-        <section id="downloads" class="clearfix">
-          <a href="https://github.com/adamscott/Unity-OInput/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
-          <a href="https://github.com/adamscott/Unity-OInput/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
-          <a href="https://github.com/adamscott/Unity-OInput" id="view-on-github" class="button"><span>View on GitHub</span></a>
-        </section>
-
-        <hr>
-
-        <section id="main_content">
-          <p>One script to ease input issues with Unity's built-in InputManager.</p>
-
-<h2>How to use?</h2>
+    <div class="wrapper">
+      <header>
+        <h1>OInput</h1>
+        <p>One script to ease input issues with Unity's built-in `Input` class.</p>
+        <p class="view"><a href="https://github.com/adamscott/Unity-OInput">View the Project on GitHub <small>adamscott/Unity-OInput</small></a></p>
+        <ul>
+          <li><a href="https://github.com/adamscott/Unity-OInput/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/adamscott/Unity-OInput/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/adamscott/Unity-OInput">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>How to use?</h2>
 
 <div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
@@ -54,40 +48,122 @@
 <span class="p">}</span>
 </pre></div>
 
+<h2>Features</h2>
+
+<h3>Runtime actions</h3>
+
+<p><code>OInput</code> class lets you set actions in your own code; no longer tied-up to axes setup in the Input Manager in the Unity editor.</p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="s">"joystick 1 axis 2"</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Profiles</h3>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Player1"</span><span class="p">).</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetProfile</span><span class="p">(</span><span class="s">"Player2"</span><span class="p">).</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Z</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Controller support</h3>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">()</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Joystick1Button0</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Button and axis detection</h3>
+
+<p>Always wanted to implement a prompt asking a user to press a key?</p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectAxis</span><span class="p">()</span> <span class="p">!=</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">None</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectAxis</span><span class="p">()</span> <span class="p">+</span> <span class="s">" has been activated."</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKeyDown</span><span class="p">()</span> <span class="p">!=</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">None</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKeyDown</span><span class="p">()</span> <span class="p">+</span> <span class="s">" has been just pressed."</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKey</span><span class="p">()</span> <span class="p">!=</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">None</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKey</span><span class="p">()</span> <span class="p">+</span> <span class="s">" has been pressed."</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKeyUp</span><span class="p">()</span> <span class="p">!=</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">None</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">Debug</span><span class="p">.</span><span class="n">Log</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">DetectKeyUp</span><span class="p">()</span> <span class="p">+</span> <span class="s">" has been released."</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Controller wrappers</h3>
+
+<p>The wrappers can help setting up profiles for controller input without worring about axis and button numbers. As there is no consistency across controllers (<a href="http://wiki.unity3d.com/index.php?title=Xbox360Controller">not even for the same controller across different platforms</a>), wrappers can be used to setup a project fast.</p>
+
+<div class="highlight"><pre><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">GetWrapper</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">())</span>
+        <span class="p">.</span><span class="n">SetJoystick</span><span class="p">(</span><span class="n">OInput</span><span class="p">.</span><span class="n">Joystick</span><span class="p">.</span><span class="n">Joystick1</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickX</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Vertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">LeftStickY</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimHorizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickX</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"AimVertical"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerAxis</span><span class="p">.</span><span class="n">RightStickY</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">A</span><span class="p">)</span>
+        <span class="p">.</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Duck"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Xbox</span><span class="p">.</span><span class="n">ControllerButton</span><span class="p">.</span><span class="n">B</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+<h3>Accepts both <code>string</code> parameters and built-in ones</h3>
+
+<div class="highlight"><pre><span class="c1">// These lines ...</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="s">"space"</span><span class="p">);</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="s">"joystick 1 axis 1"</span><span class="p">);</span>
+<span class="c1">// work as well as ...</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetButton</span><span class="p">(</span><span class="s">"Jump"</span><span class="p">,</span> <span class="n">KeyCode</span><span class="p">.</span><span class="n">Space</span><span class="p">);</span>
+<span class="n">OInput</span><span class="p">.</span><span class="n">GetDefaultProfile</span><span class="p">().</span><span class="n">SetAxis</span><span class="p">(</span><span class="s">"Horizontal"</span><span class="p">,</span> <span class="n">OInput</span><span class="p">.</span><span class="n">Axis</span><span class="p">.</span><span class="n">Joystick1Axis1</span><span class="p">);</span>
+</pre></div>
+
+<h2>What OInput stands for?</h2>
+
+<p>Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for usability.</p>
+
 <h2>How to install?</h2>
 
 <ul>
-<li>Put the "OInput.cs" file anywhere in the "Assets" folder of your project.</li>
-<li>Replace the "InputManager.asset" file in the "ProjectSettings" of your project by the one of OInput.</li>
+<li>Put the <code>OInput</code> folder in the <code>Assets/Standard Assets/Scripts</code> folder of your project. If the folder doesn't exists, create it.</li>
+<li>Replace the <code>InputManager.asset</code> file in the <code>ProjectSettings</code> of your project by the one of OInput.</li>
 </ul><h2>Issues</h2>
 
 <ul>
 <li>
 <code>OInput.Profile.GetAxis()</code> and <code>OInput.Profile.GetRawAxis()</code> return the same values, as keyboard smoothing has not been implemented yet.</li>
 <li>
-<code>OInput.Ouya</code> (Ouya controller) is not functionnal yet.</li>
+<code>OInput.Ouya</code> wrapper is not functionnal yet.</li>
+<li>
+<code>OInput.Xbox</code> wrapper works only on Mac and Windows.</li>
 </ul><h2>Notes</h2>
 
 <ul>
 <li>
-<p>"InputManager.asset" as been borrowed from the 
+<code>InputManager.asset</code> as been borrowed from the 
 <a href="https://github.com/ouya/ouya-unity-plugin">ouya-unity-plugin project</a> for (the awesome) 
 <a href="http://ouya.tv/" title="I want one!">Ouya</a>. Thanks to 
 <a href="https://twitter.com/tgraupmann" title="@tgraupmann on Twitter">Tim Graupmann</a> and the 
-<a href="https://devs.ouya.tv/developers">Ouya Dev Team</a>.</p>
-
-<pre><code>https://github.com/ouya/ouya-unity-plugin
-</code></pre>
+<a href="https://devs.ouya.tv/developers">Ouya Dev Team</a>. Visit the project's website: <code>https://github.com/ouya/ouya-unity-plugin</code>
 </li>
 </ul>
-        </section>
-
-        <footer>
-          OInput is maintained by <a href="https://github.com/adamscott">adamscott</a><br>
-          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.
-        </footer>
-
-                  <script type="text/javascript">
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/adamscott">adamscott</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -98,7 +174,5 @@
             } catch(err) {}
           </script>
 
-      </div>
-    </div>
   </body>
 </html>
