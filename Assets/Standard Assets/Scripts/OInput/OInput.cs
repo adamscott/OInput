@@ -719,7 +719,11 @@ static public class OInput {
 		{"joystick 4 button 18", KeyCode.Joystick4Button18},
 		{"joystick 4 button 19", KeyCode.Joystick4Button19}
 	};
-		
+	
+	internal const string PROFILE_SAVE_PREFIX = "OInput_profile_";
+	internal const string PROFILE_SAVE_SEPARATOR = ";;;";
+	internal const string PROFILE_SAVES = "OInput_profileSaves";
+	
 	const string DEFAULT_PROFILE_ID = "default";
 	const string DETECT_KEY_UP = "detectKeyUp";
 	const string DETECT_KEY_DOWN = "detectKeyDown";
@@ -811,7 +815,44 @@ static public class OInput {
 		}	
 	}
 	
-	static public void RemoveProfile(string id) {
+	static public List<string> GetSavedProfiles() {
+		List<string> savedProfiles;
+		
+		if (PlayerPrefs.HasKey(PROFILE_SAVES)) {
+			savedProfiles = new List<string>(PlayerPrefs.GetString(PROFILE_SAVES)
+				.Split(new string[] { PROFILE_SAVE_SEPARATOR }, System.StringSplitOptions.None));
+		} else {
+			savedProfiles = new List<string>();
+		}
+		
+		return savedProfiles;
+	}
+	
+	static internal void AddSaveProfile(string profileId) {
+		List<string> savedProfiles = GetSavedProfiles();
+		if (!savedProfiles.Contains(profileId)) {
+			savedProfiles.Add(profileId);
+			UpdateSavedProfiles(savedProfiles);
+		}
+	}
+	
+	static internal void RemoveSaveProfile(string profileId) {
+		List<string> savedProfiles = GetSavedProfiles();
+		if (savedProfiles.Contains(profileId)) {
+			savedProfiles.Remove(profileId);
+			UpdateSavedProfiles(savedProfiles);
+		}
+	}
+	
+	static internal void UpdateSavedProfiles(List<string> profiles) {
+		if (profiles.Count == 0) {
+			PlayerPrefs.DeleteKey(PROFILE_SAVES);
+		} else {
+			PlayerPrefs.SetString(PROFILE_SAVES, System.String.Join(PROFILE_SAVE_SEPARATOR, profiles.ToArray()));
+		}
+	}
+	
+	static internal void RemoveProfile(string id) {
 		OInput.Profile profile;
 		if (!_profiles.TryGetValue(id, out profile)) {
 			if (profile.Equals(_defaultProfile)) {
@@ -825,19 +866,30 @@ static public class OInput {
 	}
 	
 	public class Profile {
-		Dictionary<string, OInputAxisAction> _axisActions;
-		Dictionary<string, OInputButtonAction> _buttonActions;
+		const string MAIN_NODE = "profile";
+		const string ACTIONS_NODE = "actions";
+		const string AXIS_ACTION_ID = "axes";
+		const string BUTTON_ACTION_ID = "buttons";
+		
+		Dictionary<string, AxisAction> _axisActions;
+		Dictionary<string, ButtonAction> _buttonActions;
 		
 		string id;
 		
+		public bool hasSavedData {
+			get {
+				return PlayerPrefs.HasKey(PROFILE_SAVE_PREFIX + id);
+			}
+		}
+		
 		public Profile(string id) {
 			this.id = id;
-			_axisActions = new Dictionary<string, OInputAxisAction>();
-			_buttonActions = new Dictionary<string, OInputButtonAction>();
+			_axisActions = new Dictionary<string, AxisAction>();
+			_buttonActions = new Dictionary<string, ButtonAction>();
 		}
 		
 		public float GetAxis(string action) {
-			OInputAxisAction axisAction;
+			AxisAction axisAction;
 			if (_axisActions.TryGetValue(action, out axisAction)) {
 				return axisAction.Test();
 			} else {
@@ -847,7 +899,7 @@ static public class OInput {
 		}
 		
 		public float GetAxisRaw(string action) {
-			OInputAxisAction axisAction;
+			AxisAction axisAction;
 			if (_axisActions.TryGetValue(action, out axisAction)) {
 				return axisAction.TestRaw();
 			} else {
@@ -857,7 +909,7 @@ static public class OInput {
 		}
 		
 		public Profile SetAxis(string action, Axis axis, bool remap = false) {
-			OInputAxisAction axisAction = GetAxisAction(action);
+			AxisAction axisAction = GetAxisAction(action);
 			if (!remap) {
 				axisAction.AddAxis(axis);
 			} else {
@@ -868,7 +920,7 @@ static public class OInput {
 		}
 		
 		public Profile SetAxis(string action, string axis, bool remap = false) {
-			OInputAxisAction axisAction = GetAxisAction(action);
+			AxisAction axisAction = GetAxisAction(action);
 			if (!remap) {
 				axisAction.AddAxis(axis);
 			} else {
@@ -926,21 +978,118 @@ static public class OInput {
 		}
 		
 		public Profile SetButton(string action, KeyCode key) {
-			GetButtonAction(action).Add(key);
+			GetButtonAction(action).AddButtonKey(key);
 			return this;
 		}
 		
 		public Profile SetButton(string action, string key) {
-			GetButtonAction(action).Add(key);
+			GetButtonAction(action).AddButtonKey(key);
 			return this;
 		}
 		
 		public bool Save() {
-			return false;
+			try {
+				XmlDocument document = new XmlDocument();
+				XmlNode xmlDeclarationNode = document.CreateXmlDeclaration("1.0", "UTF-8", null);
+				document.AppendChild(xmlDeclarationNode);
+				
+				XmlElement mainNode = document.CreateElement(MAIN_NODE);
+				mainNode.SetAttribute("id", id);
+				
+				XmlElement actionsNode = document.CreateElement(ACTIONS_NODE);
+				actionsNode.SetAttribute("id", AXIS_ACTION_ID);
+				foreach (KeyValuePair<string, AxisAction> item in _axisActions) {
+					XmlElement actionNode = item.Value.ToXML(document);
+					actionsNode.AppendChild(actionNode);
+				}
+				mainNode.AppendChild(actionsNode);
+				
+				XmlElement buttonsNode = document.CreateElement(ACTIONS_NODE);
+				buttonsNode.SetAttribute("id", BUTTON_ACTION_ID);
+				foreach (KeyValuePair<string, ButtonAction> item in _buttonActions) {
+					XmlElement buttonNode = item.Value.ToXML(document);
+					buttonsNode.AppendChild(buttonNode);
+				}
+				mainNode.AppendChild(buttonsNode);
+				
+				document.AppendChild(mainNode);
+				
+				string xmlOutput = document.InnerXml;
+				
+				PlayerPrefs.SetString(PROFILE_SAVE_PREFIX + id, xmlOutput);
+				AddSaveProfile(id);
+				PlayerPrefs.Save();
+				
+				return true;
+			} catch (System.Exception exception) {
+				Debug.LogError(exception);
+				return false;
+			}			
 		}
 		
 		public bool Load() {
-			return false;
+			if (!hasSavedData) {
+				Debug.LogWarning("Cannot load data for \"" + id + "\". No saved data found.");
+				return false;
+			}
+			
+			try {
+				XmlDocument document = new XmlDocument();
+				document.LoadXml(PlayerPrefs.GetString(PROFILE_SAVE_PREFIX + id));
+				
+				Clear();
+				
+				XmlNode mainNode = document.SelectSingleNode("/" + MAIN_NODE);
+				foreach (XmlNode actionsNode in mainNode.SelectNodes("./" + ACTIONS_NODE)) {
+					switch (actionsNode.Attributes["id"].Value) {
+					case AXIS_ACTION_ID:
+						foreach (XmlNode actionNode in actionsNode.SelectNodes("./" + Action.NODE_NAME)) {
+							GetAxisAction(actionNode.Attributes["id"].Value).LoadXML(actionNode);
+						}
+						break;
+					case BUTTON_ACTION_ID:
+						foreach (XmlNode actionNode in actionsNode.SelectNodes("./" + Action.NODE_NAME)) {
+							GetButtonAction(actionNode.Attributes["id"].Value).LoadXML(actionNode);
+						}
+						break;
+					}
+				}
+				
+				return true;
+			} catch (System.Exception exception) {
+				Debug.LogError(exception);
+				return false;
+			}
+		}
+		
+		public bool DeleteSaveData() {
+			try {
+				if (hasSavedData) {
+					PlayerPrefs.DeleteKey(PROFILE_SAVE_PREFIX + id);
+					RemoveSaveProfile(id);
+					PlayerPrefs.Save();
+					return true;
+				} else {
+					return false;
+				}
+			} catch (System.Exception exception) {
+				Debug.LogError(exception);
+				return false;
+			}
+		}
+		
+		public Profile Clear() {
+			foreach (KeyValuePair<string, AxisAction> item in _axisActions) {
+				item.Value.Dispose();
+			}
+			_axisActions.Clear();
+			
+			foreach (KeyValuePair<string, ButtonAction> item in _buttonActions) {
+				item.Value.Dispose();
+			}
+			_buttonActions.Clear();
+			
+			return this;
 		}
 		
 		public Profile SetAsDefault() {
@@ -948,33 +1097,35 @@ static public class OInput {
 			return this;
 		}
 		
-		private OInputAxisAction GetAxisAction(string action) {
-			OInputAxisAction axisAction;
+		public void Remove() {
+			OInput.RemoveProfile(id);
+		}
+		
+		private AxisAction GetAxisAction(string action) {
+			AxisAction axisAction;
 			if (!_axisActions.TryGetValue(action, out axisAction)) {
-				_axisActions.Add(action, new OInputAxisAction(id));
+				_axisActions.Add(action, new AxisAction(action));
 				axisAction = _axisActions[action];
 			}
 			return axisAction;
 		}
 		
-		private OInputButtonAction GetButtonAction(string action) {
-			OInputButtonAction buttonAction;
+		private ButtonAction GetButtonAction(string action) {
+			ButtonAction buttonAction;
 			if (!_buttonActions.TryGetValue(action, out buttonAction)) {
-				_buttonActions.Add(action, new OInputButtonAction(id));
+				_buttonActions.Add(action, new ButtonAction(action));
 				buttonAction = _buttonActions[action];
 			}
 			return buttonAction;
 		}
 		
 		internal void Dispose() {
-			Dictionary<string, OInputAxisAction>.Enumerator axisActionEnumerator = _axisActions.GetEnumerator();
-			while (axisActionEnumerator.MoveNext()) {
-				axisActionEnumerator.Current.Value.Dispose();
+			foreach (KeyValuePair<string, AxisAction> item in _axisActions) {
+				item.Value.Dispose();
 			}
 			
-			Dictionary<string, OInputButtonAction>.Enumerator axisButtonEnumerator = _buttonActions.GetEnumerator();
-			while (axisButtonEnumerator.MoveNext()) {
-				axisButtonEnumerator.Current.Value.Dispose();
+			foreach (KeyValuePair<string, ButtonAction> item in _buttonActions) {
+				item.Value.Dispose();
 			}
 			
 			_axisActions.Clear();
@@ -1026,11 +1177,22 @@ static public class OInput {
 		
 	}
 	
-	private abstract class OInputAction {
+	private abstract class Action {
+		internal const string NODE_NAME = "action";
+		internal const string INPUT_NODE_NAME = "input";
+		
 		public string id;
 		
-		public OInputAction(string id) {
+		public Action(string id) {
 			this.id = id;
+		}
+		
+		public virtual XmlElement ToXML(XmlDocument document) {
+			return document.CreateElement(NODE_NAME);
+		}
+		
+		public virtual void LoadXML(XmlNode actionNode) {
+			
 		}
 		
 		public virtual void Dispose() {
@@ -1038,7 +1200,7 @@ static public class OInput {
 		}
 	}
 	
-	private class OInputAxisAction:OInputAction {
+	private class AxisAction:Action {
 		
 		struct KeyCodePair {
 			public KeyCode Positive;
@@ -1050,12 +1212,19 @@ static public class OInput {
 			public Axis Negative;
 		}
 		
+		const string AXIS_ID = "axis";
+		const string AXIS_REMAP_ID = "axisRemap";
+		const string AXIS_KEYS_ID = "axisKeys";
+		const string AXIS_MIX_ID = "axisMix";
+		
+		const string AXIS_SEPARATOR = "|";
+		
 		List<Axis> _axes;
 		List<Axis> _axesRemap;
 		Dictionary<string, KeyCodePair> _axesKeys;
 		Dictionary<string, AxisPair> _axesMix;
 		
-		public OInputAxisAction(string id):base(id) {
+		public AxisAction(string id):base(id) {
 			_axes = new List<Axis>();
 			_axesRemap = new List<Axis>();
 			_axesKeys = new Dictionary<string, KeyCodePair>();
@@ -1179,9 +1348,8 @@ static public class OInput {
 				}
 			}
 			
-			Dictionary<string, AxisPair>.Enumerator axisPairEnumerator = _axesMix.GetEnumerator();
-			while (axisPairEnumerator.MoveNext()) {
-				AxisPair pair = axisPairEnumerator.Current.Value;
+			foreach (KeyValuePair<string, AxisPair> item in _axesMix) {
+				AxisPair pair = item.Value;
 				float negativeValue = Input.GetAxis(AxisToString[pair.Negative]);
 				float positiveValue = Input.GetAxis(AxisToString[pair.Positive]);
 				
@@ -1194,9 +1362,8 @@ static public class OInput {
 				}
 			}
 			
-			Dictionary<string, KeyCodePair>.Enumerator keyEnumerator = _axesKeys.GetEnumerator();
-			while (keyEnumerator.MoveNext()) {
-				KeyCodePair pair = keyEnumerator.Current.Value;
+			foreach (KeyValuePair<string, KeyCodePair> item in _axesKeys) {
+				KeyCodePair pair = item.Value;
 				if (Input.GetKey(pair.Positive) && Input.GetKey(pair.Negative)) {
 					return GetSmoothedValue(0.0f);
 				} else if (Input.GetKey(pair.Positive)) {
@@ -1225,9 +1392,8 @@ static public class OInput {
 				}
 			}
 			
-			Dictionary<string, AxisPair>.Enumerator axisPairEnumerator = _axesMix.GetEnumerator();
-			while (axisPairEnumerator.MoveNext()) {
-				AxisPair pair = axisPairEnumerator.Current.Value;
+			foreach (KeyValuePair<string, AxisPair> item in _axesMix) {
+				AxisPair pair = item.Value;
 				float negativeValue = Input.GetAxis(AxisToString[pair.Negative]);
 				float positiveValue = Input.GetAxis(AxisToString[pair.Positive]);
 				
@@ -1240,9 +1406,8 @@ static public class OInput {
 				}
 			}
 			
-			Dictionary<string, KeyCodePair>.Enumerator enumerator = _axesKeys.GetEnumerator();
-			while (enumerator.MoveNext()) {
-				KeyCodePair pair = enumerator.Current.Value;
+			foreach (KeyValuePair<string, KeyCodePair> item in _axesKeys) {
+				KeyCodePair pair = item.Value;
 				if (Input.GetKey(pair.Positive) && Input.GetKey(pair.Negative)) {
 					return 0.0f;
 				} else if (Input.GetKey(pair.Positive)) {
@@ -1253,6 +1418,73 @@ static public class OInput {
 			}
 			
 			return 0.0f;
+		}
+		
+		public override XmlElement ToXML(XmlDocument document) {
+			XmlElement node = base.ToXML(document);
+			node.SetAttribute("id", id);
+			
+			foreach (Axis axis in _axes) {
+				XmlElement keyNode = document.CreateElement(INPUT_NODE_NAME);
+				keyNode.SetAttribute("id", AXIS_ID);
+				keyNode.SetAttribute("value", axis.ToString());
+				node.AppendChild(keyNode);
+			}
+			
+			foreach (Axis axis in _axesRemap) {
+				XmlElement keyNode = document.CreateElement(INPUT_NODE_NAME);
+				keyNode.SetAttribute("id", AXIS_REMAP_ID);
+				keyNode.SetAttribute("value", axis.ToString());
+				node.AppendChild(keyNode);
+			}
+			
+			foreach (KeyValuePair<string, KeyCodePair> item in _axesKeys) {
+				XmlElement keyNode = document.CreateElement(INPUT_NODE_NAME);
+				keyNode.SetAttribute("id", AXIS_KEYS_ID);
+				keyNode.SetAttribute("value", item.Value.Negative.ToString()
+					+ AXIS_SEPARATOR + item.Value.Positive.ToString());
+				node.AppendChild(keyNode);
+			}
+			
+			foreach (KeyValuePair<string, AxisPair> item in _axesMix) {
+				XmlElement keyNode = document.CreateElement(INPUT_NODE_NAME);
+				keyNode.SetAttribute("id", AXIS_MIX_ID);
+				keyNode.SetAttribute("value", item.Value.Negative.ToString()
+					+ AXIS_SEPARATOR + item.Value.Positive.ToString());
+				node.AppendChild(keyNode);
+			}
+			
+			return node;
+		}
+		
+		public override void LoadXML(XmlNode actionNode) {
+			foreach (XmlNode key in actionNode.SelectNodes("./" + INPUT_NODE_NAME)) {
+				string keyId = key.Attributes["id"].Value;
+				string keyValue = key.Attributes["value"].Value;
+				
+				switch (keyId) {
+				case AXIS_ID:
+					Axis axis = (Axis)System.Enum.Parse(typeof(Axis), keyValue);
+					AddAxis(axis);
+					break;
+				case AXIS_REMAP_ID:
+					Axis remappedAxis = (Axis)System.Enum.Parse(typeof(Axis), keyValue);
+					AddRemappedAxis(remappedAxis);
+					break;
+				case AXIS_KEYS_ID:
+					string[] keys = keyValue.Split(AXIS_SEPARATOR.ToCharArray());
+					KeyCode negativeKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), keys[0]);
+					KeyCode positiveKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), keys[1]);
+					AddAxisKeys(negativeKey, positiveKey);
+					break;
+				case AXIS_MIX_ID:
+					string[] axes = keyValue.Split(AXIS_SEPARATOR.ToCharArray());
+					Axis negativeAxis = (Axis)System.Enum.Parse(typeof(Axis), axes[0]);
+					Axis positiveAxis = (Axis)System.Enum.Parse(typeof(Axis), axes[1]);
+					AddAxisMix(negativeAxis, positiveAxis);
+					break;
+				}
+			}
 		}
 		
 		public override void Dispose() {
@@ -1277,21 +1509,23 @@ static public class OInput {
 		}
 	}
 	
-	private class OInputButtonAction:OInputAction {
+	private class ButtonAction:Action {
+		const string BUTTON_KEY = "buttonKey";
+		
 		List<KeyCode> _buttonKeys;
 		
-		public OInputButtonAction(string id):base(id) {
+		public ButtonAction(string id):base(id) {
 			_buttonKeys = new List<KeyCode>();
 		}
 		
-		public void Add(KeyCode key) {
+		public void AddButtonKey(KeyCode key) {
 			_buttonKeys.Add(key);
 		}
 		
-		public void Add(string key) {
+		public void AddButtonKey(string key) {
 			KeyCode realKey;
 			if (StringToKeyCode.TryGetValue(key, out realKey)) {
-				Add(realKey);
+				AddButtonKey(realKey);
 			} else {
 				Debug.LogError(key + " is not a defined key.");
 			}
@@ -1322,6 +1556,34 @@ static public class OInput {
 				}
 			}	
 			return false;
+		}
+		
+		public override XmlElement ToXML(XmlDocument document) {
+			XmlElement node = base.ToXML(document);
+			node.SetAttribute("id", id);
+			
+			foreach (KeyCode key in _buttonKeys) {
+				XmlElement keyNode = document.CreateElement(INPUT_NODE_NAME);
+				keyNode.SetAttribute("id", BUTTON_KEY);
+				keyNode.SetAttribute("value", key.ToString());
+				node.AppendChild(keyNode);
+			}
+			
+			return node;
+		}
+		
+		public override void LoadXML(XmlNode actionNode) {
+			foreach (XmlNode key in actionNode.SelectNodes("./" + INPUT_NODE_NAME)) {
+				string keyId = key.Attributes["id"].Value;
+				string keyValue = key.Attributes["value"].Value;
+				
+				switch (keyId) {
+				case BUTTON_KEY:
+					KeyCode buttonKey = (KeyCode)System.Enum.Parse(typeof(KeyCode), keyValue);
+					AddButtonKey(buttonKey);
+					break;
+				}
+			}
 		}
 		
 		public override void Dispose() {
