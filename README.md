@@ -27,7 +27,7 @@ Features
 `OInput` class lets you set actions in your own code; no longer tied-up to axes setup in the project settings.
 
 ```csharp
-Transform neck;
+public Transform neck;
 
 void Start() {
 	OInput.GetDefaultProfile()
