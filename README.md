@@ -1,27 +1,40 @@
-OInput for Unity
+<img src="https://raw.github.com/adamscott/Unity-OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput for Unity3d" />
 ================
 
-Intended to free the developer from the input limitations of Unity.
+One script to ease input issues with Unity's built-in InputManager.
 
-What is it?
+How to use?
 ----------------
 
-Originally meant to be called OpenInput, it was quickly renamed OInput for the sake of usability.
+```csharp
+void Start() {
+	OInput.GetDefaultProfile()
+		.SetAxis("Horizontal", "a", "d")
+		.SetAxis("Vertical", "w", "d")
+		.SetButton("Jump", "space");
+}
 
+void Update() {
+	transform.position += Time.deltaTime * new Vector3(
+		OInput.GetDefaultProfile().GetAxis("Horizontal"),
+		0,
+		OInput.GetDefaultProfile().GetAxis("Vertical"));
+        
+	if (OInput.GetDefaultProfile().GetButton("Jump")) {
+		rigidbody.AddForce(Vector3.up * speed, ForceMode.Impulse);
+	}
+}
+```
 
 How to install?
 ----------------
 - Put the "OInput.cs" file anywhere in the "Assets" folder of your project.
 - Replace the "InputManager.asset" file in the "ProjectSettings" of your project by the one of OInput.
 
-How to use?
+Issues
 ----------------
-        
-        // In the Start method
-        OInput.GetDefaultProfile().SetAxis("Horizontal", "a", "d");
-        ...
-        // In the update loop
-        transform.position += OInput.GetDefaultProfile().GetAxis("Horizontal") * Time.deltaTime * speed;
+- `OInput.Profile.GetAxis()` and `OInput.Profile.GetRawAxis()` return the same values, as keyboard smoothing has not been implemented yet.
+- `OInput.Ouya` (Ouya controller) is not functionnal yet.
 
 Notes
 ----------------
