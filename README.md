@@ -76,7 +76,30 @@ void Update () {
 ```
 
 #### Profile persistence
-The user 
+```csharp
+void Start() {
+	// Checks if the profile has saved data in the preferences (PlayerPrefs)
+	if (OInput.GetDefaultProfile().hasSavedData) {
+		OInput.GetDefaultProfile()
+			.SetAxis("Horizontal", "joystick 1 axis 1")
+			.Save(); // Saves through PlayerPrefs settings
+		
+		OInput.GetDefaultProfile()
+			.Clear() // Clear() method clears all actions from a profile
+			.SetAxis("NonImportantAxis", "joystick 3 axis 10");
+	}
+	
+	// Loads the saved profile from memory
+	OInput.GetDefaultProfile()
+		.Load();
+}
+
+void Update() {
+	// As the default profile is loaded to it's previous state, 
+	// joystick 1 will be able to control the translation
+	float translation = OInput.GetDefaultProfile().GetAxis("Horizontal") * 10.0f;
+}
+```
 
 ### Controller support
 Adding controller buttons and axis to actions has never been simpler. 
@@ -95,7 +118,7 @@ void Start() {
 ```
 
 ### Button and axis detection
-Always wanted to implement a prompt asking a user to press a key?
+Implementing a prompt asking a user to press a key is quite easy with OInput.
 ```csharp
 void Update() {
 	if (OInput.DetectAxis() != OInput.Axis.None) {
@@ -152,10 +175,6 @@ void Update() {
 }
 ```
 
-What does OInput stands for?
-----------------
-Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for the sake of usability.
-
 How to install?
 ----------------
 - [Download](https://github.com/adamscott/Unity-OInput/archive/master.zip) or clone the project.
@@ -184,6 +203,10 @@ Version history
 | Version | Release date  | Release notes                                          |
 | ------- | ------------- | ------------------------------------------------------ |
 | v0.1    | June 1st 2013 | N/A                                                    |
+
+What does OInput stands for?
+----------------
+Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for the sake of usability.
 
 Notes
 ----------------
