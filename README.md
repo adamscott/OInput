@@ -1,7 +1,7 @@
 <img src="https://raw.github.com/adamscott/Unity-OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput for Unity3d" />
 ================
 
-One script to ease input issues with Unity's built-in InputManager.
+One script to ease input issues with Unity's built-in `Input` class.
 
 How to use?
 ----------------
@@ -28,6 +28,17 @@ void Update() {
 
 Features
 ----------------
+### Runtime actions
+`OInput` class lets you set actions in your own code; no longer tied-up to axes setup in the Input Manager in the Unity editor.
+
+```csharp
+void Start() {
+	OInput.GetDefaultProfile()
+		.SetAxis("Horizontal", "joystick 1 axis 1")
+		.SetAxis("Vertical", "joystick 1 axis 2");
+}
+```
+
 ### Profiles
 ```csharp
 void Start() {
@@ -93,10 +104,14 @@ OInput.GetDefaultProfile().SetButton("Jump", KeyCode.Space);
 OInput.GetDefaultProfile().SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
 ```
 
+What OInput stands for?
+----------------
+Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for usability.
+
 How to install?
 ----------------
 - Put the `OInput` folder in the `Assets/Standard Assets/Scripts` folder of your project. If the folder doesn't exists, create it.
-- Replace the `InputManager.asset`[1] file in the `ProjectSettings` of your project by the one of OInput.
+- Replace the `InputManager.asset` file in the `ProjectSettings` of your project by the one of OInput.
 
 Issues
 ----------------
@@ -106,7 +121,7 @@ Issues
 
 Notes
 ----------------
-- [1] "InputManager.asset" as been borrowed from the 
+- `InputManager.asset` as been borrowed from the 
 [ouya-unity-plugin project](https://github.com/ouya/ouya-unity-plugin) for (the awesome) 
 [Ouya](http://ouya.tv/ "I want one!"). Thanks to 
 [Tim Graupmann](https://twitter.com/tgraupmann "@tgraupmann on Twitter") and the 
