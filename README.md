@@ -40,7 +40,18 @@ void Update() {
 
 ```
 
+### Accepts both `string` parameters and built-in ones
+```csharp
+// These lines ...
+OInput.GetDefaultProfile().SetButton("Jump", "space");
+OInput.GetDefaultProfile().SetAxis("Horizontal", "joystick 1 axis 1");
+// work as well as ...
+OInput.GetDefaultProfile().SetButton("Jump", KeyCode.Space);
+OInput.GetDefaultProfile().SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
+```
+
 ### Profiles
+
 ```csharp
 void Start () {
 	// Sets the "Goofy" profile.
@@ -137,17 +148,7 @@ void Update() {
 }
 ```
 
-### Accepts both `string` parameters and built-in ones
-```csharp
-// These lines ...
-OInput.GetDefaultProfile().SetButton("Jump", "space");
-OInput.GetDefaultProfile().SetAxis("Horizontal", "joystick 1 axis 1");
-// work as well as ...
-OInput.GetDefaultProfile().SetButton("Jump", KeyCode.Space);
-OInput.GetDefaultProfile().SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
-```
-
-What OInput stands for?
+What does OInput stands for?
 ----------------
 Originally intended to be called OpenInput, the project/file has been quickly renamed OInput for usability.
 
@@ -166,6 +167,12 @@ Don't forget you can fill issues in the [issue tracker](https://github.com/adams
 - `OInput.Profile.GetAxis()` and `OInput.Profile.GetRawAxis()` return the same values, as keyboard smoothing has not been implemented yet.
 - `OInput.Ouya` wrapper is not functionnal yet.
 - `OInput.Xbox` wrapper works only on Mac and Windows.
+
+Version history
+----------------
+| Version | Release date  | Release notes                                          |
+| ------- | ------------- | ------------------------------------------------------ |
+| v0.1    | June 1st 2013 | N/A                                                    |
 
 Notes
 ----------------
