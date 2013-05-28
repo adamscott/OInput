@@ -121,7 +121,8 @@ void Update() {
 }
 ```
 
-### Controller support
+### Controllers
+#### Controller support
 Adding controller buttons and axis to actions has never been simpler. 
 ```csharp
 void Start() {
@@ -137,29 +138,7 @@ void Start() {
 }
 ```
 
-### Button and axis detection
-Implementing a prompt asking a user to press a key is quite easy with OInput.
-```csharp
-void Update() {
-	if (OInput.DetectAxis() != OInput.Axis.None) {
-		Debug.Log(OInput.DetectAxis() + " has been activated.");
-	}
-	
-	if (OInput.DetectKeyDown() != KeyCode.None) {
-		Debug.Log(OInput.DetectKeyDown() + " has been just pressed.");
-	}
-	
-	if (OInput.DetectKey() != KeyCode.None) {
-		Debug.Log(OInput.DetectKey() + " has been pressed.");
-	}
-	
-	if (OInput.DetectKeyUp() != KeyCode.None) {
-		Debug.Log(OInput.DetectKeyUp() + " has been released.");
-	}
-}
-```
-
-### Controller wrappers
+#### Controller wrappers
 The wrappers can help setting up profiles for controller input without worring about axis and button numbers. Why? Because it preprocesses the input to be uniform whatever the platform the game runs.
 
 As there is no consistency across controllers ([not even for the same controller across different platforms](http://wiki.unity3d.com/index.php?title=Xbox360Controller)), wrappers can be used to setup a project fast.
@@ -191,6 +170,28 @@ void Update() {
 	if (OInput.GetDefaultProfile().GetButton("Jump")) {
 		// The character jumps.
 		Debug.Log("Jumpin'!");
+	}
+}
+```
+
+### Button and axis detection
+Implementing a prompt asking a user to press a key is quite easy with OInput.
+```csharp
+void Update() {
+	if (OInput.DetectAxis() != OInput.Axis.None) {
+		Debug.Log(OInput.DetectAxis() + " has been activated.");
+	}
+	
+	if (OInput.DetectKeyDown() != KeyCode.None) {
+		Debug.Log(OInput.DetectKeyDown() + " has been just pressed.");
+	}
+	
+	if (OInput.DetectKey() != KeyCode.None) {
+		Debug.Log(OInput.DetectKey() + " has been pressed.");
+	}
+	
+	if (OInput.DetectKeyUp() != KeyCode.None) {
+		Debug.Log(OInput.DetectKeyUp() + " has been released.");
 	}
 }
 ```
