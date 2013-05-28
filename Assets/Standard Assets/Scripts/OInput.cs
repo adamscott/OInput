@@ -128,21 +128,21 @@ static public class OInput {
 		
 	const string DEFAULT_PROFILE_ID = "default";
 	
-	static internal OInputProfile _defaultProfile;
+	static internal Profile _defaultProfile;
 	
-	static Dictionary<string, OInputProfile> _profiles = new Dictionary<string, OInputProfile>();
+	static Dictionary<string, Profile> _profiles = new Dictionary<string, Profile>();
 	
-	static public OInputProfile GetProfile(string id) {
-		OInput.OInputProfile profile;
+	static public Profile GetProfile(string id) {
+		OInput.Profile profile;
 		if (!_profiles.TryGetValue(id, out profile)) {
-			_profiles.Add(id, new OInputProfile(id));
+			_profiles.Add(id, new Profile(id));
 			profile = _profiles[id];
 		}
 		
 		return profile;
 	}
 	
-	static public OInputProfile GetDefaultProfile() {
+	static public Profile GetDefaultProfile() {
 		if (_defaultProfile == null) {
 			return GetProfile(DEFAULT_PROFILE_ID);
 		} else {
@@ -151,7 +151,7 @@ static public class OInput {
 	}
 	
 	static public void RemoveProfile(string id) {
-		OInput.OInputProfile profile;
+		OInput.Profile profile;
 		if (!_profiles.TryGetValue(id, out profile)) {
 			if (profile.Equals(_defaultProfile)) {
 				_defaultProfile = null;
@@ -163,13 +163,13 @@ static public class OInput {
 		}
 	}
 	
-	public class OInputProfile {
+	public class Profile {
 		Dictionary<string, OInputAxisAction> _axisActions;
 		Dictionary<string, OInputButtonAction> _buttonActions;
 		
 		string id;
 		
-		public OInputProfile(string id) {
+		public Profile(string id) {
 			this.id = id;
 			_axisActions = new Dictionary<string, OInputAxisAction>();
 			_buttonActions = new Dictionary<string, OInputButtonAction>();
@@ -196,38 +196,46 @@ static public class OInput {
 			}
 		}
 		
-		public void SetAxis(string action, Axis axis, bool remap = false) {
+		public Profile SetAxis(string action, Axis axis, bool remap = false) {
 			OInputAxisAction axisAction = GetAxisAction(action);
 			if (!remap) {
 				axisAction.AddAxis(axis);
 			} else {
 				axisAction.AddRemappedAxis(axis);
 			}
+			
+			return this;
 		}
 		
-		public void SetAxis(string action, string axis, bool remap = false) {
+		public Profile SetAxis(string action, string axis, bool remap = false) {
 			OInputAxisAction axisAction = GetAxisAction(action);
 			if (!remap) {
 				axisAction.AddAxis(axis);
 			} else {
 				axisAction.AddRemappedAxis(axis);
 			}
+			
+			return this;
 		}
 		
-		public void SetAxisKeys(string action, KeyCode negativeKey, KeyCode positiveKey) {
+		public Profile SetAxisKeys(string action, KeyCode negativeKey, KeyCode positiveKey) {
 			GetAxisAction(action).AddAxisKeys(negativeKey, positiveKey);
+			return this;
 		}
 		
-		public void SetAxisKeys(string action, string negativeKey, string positiveKey) {
+		public Profile SetAxisKeys(string action, string negativeKey, string positiveKey) {
 			GetAxisAction(action).AddAxisKeys(negativeKey, positiveKey);
+			return this;
 		}
 		
-		public void SetAxisMix(string action, Axis negativeAxis, Axis positiveAxis) {
+		public Profile SetAxisMix(string action, Axis negativeAxis, Axis positiveAxis) {
 			GetAxisAction(action).AddAxisMix(negativeAxis, positiveAxis);
+			return this;
 		}
 		
-		public void SetAxisMix(string action, string negativeAxis, string positiveAxis) {
+		public Profile SetAxisMix(string action, string negativeAxis, string positiveAxis) {
 			GetAxisAction(action).AddAxisMix(negativeAxis, positiveAxis);
+			return this;
 		}
 		
 		public bool GetButton(string action) {
@@ -257,12 +265,14 @@ static public class OInput {
 			}
 		}
 		
-		public void SetButton(string action, KeyCode key) {
+		public Profile SetButton(string action, KeyCode key) {
 			GetButtonAction(action).Add(key);
+			return this;
 		}
 		
-		public void SetButton(string action, string key) {
+		public Profile SetButton(string action, string key) {
 			GetButtonAction(action).Add(key);
+			return this;
 		}
 		
 		public bool Save() {
@@ -273,8 +283,9 @@ static public class OInput {
 			return false;
 		}
 		
-		public void SetAsDefault() {
+		public Profile SetAsDefault() {
 			_defaultProfile = this;
+			return this;
 		}
 		
 		private OInputAxisAction GetAxisAction(string action) {
@@ -1247,6 +1258,4 @@ static public class OInput {
 			_buttonKeys = null;
 		}
 	}
-	
-	
 }
