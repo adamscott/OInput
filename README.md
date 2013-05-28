@@ -48,11 +48,18 @@ void Start() {
 ```
 
 ### Controller support
+Adding controller buttons and axis to actions has never been simpler. 
 ```csharp
 void Start() {
-	OInput.GetDefaultProfile()
+	// Setting up Player 1
+	OInput.GetProfile("JohnIsThaBest")
 		.SetButton("Jump", KeyCode.Joystick1Button0)
 		.SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
+		
+	// Setting up Player 2
+	OInput.GetProfile("Player2Owns")
+		.SetButton("Jump", KeyCode.Joystick2Button0)
+		.SetAxis("Horizontal", OInput.Axis.Joystick2Axis1);
 }
 ```
 
