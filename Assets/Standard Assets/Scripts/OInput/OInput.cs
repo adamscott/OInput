@@ -596,7 +596,7 @@ static public class OInput {
 		{"right shift", KeyCode.RightShift},
 		{"left shift", KeyCode.LeftShift},
 		{"right ctrl", KeyCode.RightControl},
-		{"left crtl", KeyCode.LeftControl},
+		{"left ctrl", KeyCode.LeftControl},
 		{"right alt", KeyCode.RightAlt},
 		{"left alt", KeyCode.LeftAlt},
 		{"left cmd", KeyCode.LeftCommand},
