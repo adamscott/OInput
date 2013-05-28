@@ -177,7 +177,9 @@ void Update() {
 }
 ```
 
-### Button and axis detection
+### Buttons and axes
+
+#### Button and axis detection
 Implementing a prompt asking a user to press a key is quite easy with OInput.
 ```csharp
 void Update() {
@@ -196,6 +198,32 @@ void Update() {
 	if (OInput.DetectKeyUp() != KeyCode.None) {
 		Debug.Log(OInput.DetectKeyUp() + " has been released.");
 	}
+}
+```
+
+#### Multiple ways to do axes
+Needing a axis output of 0 to 1 instead of the classic -1 to 1? You want to implement a virtual axis by keypresses? Need to mix 2 joystick axes into one?
+```csharp
+void Start() {
+	OInput.GetDefaultProfile()
+		.SetAxis("SimpleAxis", OInput.Axis.Joystick1Axis1) // the 3rd parameter of SetAxis is false by default
+		.SetAxis("RemappedAxis", OInput.Axis.Joystick1Axis2, true) // the 3rd parameter is for remapping or not
+		.SetAxisKeys("VirtualAxis", KeyCode.A, KeyCode.D)
+		.SetAxisMix("AxisMix", OInput.Axis.Joystick1Axis3, OInput.Axis.Joystick1Axis4);
+}
+
+void Update() {
+	Debug.Log("SimpleAxis: " + OInput.GetDefaultProfile().GetAxis("SimpleAxis"));
+	// Will log from -1 to 1
+	
+	Debug.Log("RemappedAxis: " + OInput.GetDefaultProfile().GetAxis("RemappedAxis"));
+	// Will log from 0 to 1, -1 becomes 0, 0 becomes 0.5 and 1 stays 1.
+	
+	Debug.Log("VirtualAxis: " + OInput.GetDefaultProfile().GetAxis("VirtualAxis"));
+	// Will log -1 when A key is pressed, 1 when D key is pressed, 0 when both or none of those is pressed.
+	
+	Debug.Log("AxisMix: " + OInput.GetDefaultProfile().GetAxis("AxisMix"));
+	// Will log the sum of Joystick1Axis3 (mapped to -1 to 0) and Joystick1Axis4 (mapped to 0 to 1)
 }
 ```
 
