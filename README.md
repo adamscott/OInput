@@ -29,12 +29,39 @@ void Update() {
 Features
 ----------------
 ### Profiles
+```csharp
+void Start() {
+	OInput.GetProfile("Player1").SetButton("Jump", KeyCode.Space);
+	OInput.GetProfile("Player2").SetButton("Jump", KeyCode.Z);
+}
+```
 
 ### Controller support
+```csharp
+void Start() {
+	OInput.GetProfile("Player1")
+		.SetButton("Jump", KeyCode.Joystick1Button0)
+		.SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
+}
+```
 
 ### Controller wrappers
+```csharp
+void Start() {
+	OInput.Xbox.GetWrapper(OInput.GetDefaultProfile())
+		.SetButton("Jump", OInput.Xbox.ControllerButton.A)
+		.SetAxis("Horizontal", OInput.Xbox.ControllerAxis.LeftStickX);
+}
+```
 
 ### Accepts both `string` parameters and built-in ones
+```csharp
+OInput.GetDefaultProfile().SetButton("Jump", "space");
+OInput.GetDefaultProfile().SetAxis("Horizontal", "joystick 1 axis 1");
+// works as well as ...
+OInput.GetDefaultProfile().SetButton("Jump", KeyCode.Space);
+OInput.GetDefaultProfile().SetAxis("Horizontal", OInput.Axis.Joystick1Axis1);
+```
 
 How to install?
 ----------------
