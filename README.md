@@ -254,7 +254,7 @@ Version history
 ----------------
 | Version | Release date  | Release notes                                          |
 | ------- | ------------- | ------------------------------------------------------ |
-| v0.1    | June 1st 2013 | N/A                                                    |
+| v0.1a   | May 30th 2013 | N/A                                                    |
 
 What does OInput stands for?
 ----------------
