@@ -252,9 +252,9 @@ Planned features
 
 Version history
 ----------------
-| Version | Release date  | Release notes                                          |
-| ------- | ------------- | ------------------------------------------------------ |
-| v0.1a   | May 30th 2013 | N/A                                                    |
+| Version                                                   | Release date  | Release notes                                          |
+| --------------------------------------------------------- | ------------- | ------------------------------------------------------ |
+| [v0.1a](https://github.com/adamscott/OInput/tree/v0.1a)   | May 30th 2013 | N/A                                                    |
 
 What does OInput stands for?
 ----------------
