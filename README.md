@@ -1,7 +1,7 @@
-<img src="https://raw.github.com/adamscott/OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput for Unity3d" />
+<img src="https://raw.github.com/adamscott/OInput/gh-pages/images/OInput.png" height="75px" alt="OInput" title="OInput" />
 ================
 
-One script to ease input issues with Unity's built-in `Input` class.
+One script to ease input setup in Unity projects.
 
 Quick start
 ----------------
