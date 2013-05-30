@@ -201,7 +201,7 @@ void Update() {
 }
 ```
 
-#### Multiple ways to do axes
+#### Multiple ways to set axes
 Needing a axis output of 0 to 1 instead of the classic -1 to 1? You want to implement a virtual axis by keypresses? Need to mix 2 joystick axes into one?
 ```csharp
 void Start() {
